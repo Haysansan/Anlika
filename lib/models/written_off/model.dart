@@ -1,4 +1,4 @@
-class WrittenOffModel{
+class WrittenOffModel {
   final int id;
   final String client;
   final String loan_officer;
@@ -49,37 +49,37 @@ class WrittenOffModel{
     required this.synced,
     required this.toggleStatus,
   });
-  factory WrittenOffModel.fromJson(Map<String,dynamic> json){
+  factory WrittenOffModel.fromJson(Map<String, dynamic> json) {
     return WrittenOffModel(
-    id : json["id"] ?? 0,
-    client : json["client"] ?? 'N/A',
-    loan_officer : json["loan_officer"] ?? 'N/A',
-    branch : json["branch"] ?? '0',
-    client_id : json["client_id"] ?? '0',
-    loan_id : json["loan_id"] ?? 'N/A',
-    mobile : json["mobile"] ?? 'N/A',
-    client_code : json["client_code"] ?? 'N/A',
-    account_number : json["account_number"] ?? 'N/A',
-    cycle : json["cycle"] ?? '0',
-    loan_term : json["loan_term"] ?? '0',
-    photo : json["photo"] ?? 'N/A',
-    principal : json["principal"] ?? '0',
-    end_pricipal : json["endpricipal"] ?? '0',
-    interest : json["interest"] ?? '0',
-    monthly_fee : json["monthly_fee"] ?? '0',
-    villages_name : json["villages_name"] ?? 'N/A',
-    last_payment_date : json["last_payment_date"] ?? 'N/A',
-    total_repayment : json["total_repayment"] ?? '0',
-    arrea : json["arrea"] ?? '0',
-    total_toclose : json["total_toclose"] ?? '0',
-    syncedate : json["syncedate"] ?? 'N/A',
-    synced : json["synced"] ?? 0,
+      id: json["id"] ?? 0,
+      client: json["client"] ?? 'N/A',
+      loan_officer: json["loan_officer"] ?? 'N/A',
+      branch: json["branch"] ?? '0',
+      client_id: json["client_id"]?.toString() ?? 'N/A',
+      loan_id: json["loan_id"]?.toString() ?? 'N/A',
+      mobile: json["mobile"]?.toString() ?? 'N/A',
+      client_code: json["client_code"] ?? 'N/A',
+      account_number: json["account_number"] ?? 'N/A',
+      cycle: json["cycle"]?.toString() ?? 'N/A',
+      loan_term: json["loan_term"]?.toString() ?? 'N/A',
+      photo: json["photo"] ?? 'N/A',
+      principal: json["principal"] ?? '0',
+      end_pricipal: json["endpricipal"] ?? '0',
+      interest: json["interest"] ?? '0',
+      monthly_fee: json["monthly_fee"] ?? '0',
+      villages_name: json["villages_name"] ?? 'N/A',
+      last_payment_date: json["last_payment_date"] ?? 'N/A',
+      total_repayment: json["total_repayment"] ?? '0',
+      arrea: json["arrea"]?.toString() ?? 'N/A',
+      total_toclose: json["total_toclose"] ?? '0',
+      syncedate: json["syncedate"] ?? 'N/A',
+      synced: json["synced"] ?? 0,
       toggleStatus: json['toggle_status'] ?? false,
     );
   }
-  Map<String,dynamic> toJson(){
-    final Map<String,dynamic> data = new Map<String,dynamic>();
-    data['id']  = this.id;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['client'] = this.client;
     data['loan_officer'] = this.loan_officer;
     data['branch'] = this.branch;
