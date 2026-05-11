@@ -16,12 +16,9 @@ class CustomerSheet extends StatelessWidget {
 
   final RxBool isPassVisible = true.obs;
   final RxBool isLogVaiEmail = false.obs;
-  void loginTab() async {
-
-  }
+  void loginTab() async {}
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       bottom: false,
       child: Column(
@@ -29,14 +26,8 @@ class CustomerSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           25.height,
-          _buildInfoRowPopUpBoldInput(
-            "ទឹកប្រាក់ពិន័យ",
-            totalPenaltyCtl,
-          ),
-          _buildInfoRowPopUpBoldInput(
-            "ទឹកប្រាក់ត្រូវបង់",
-            totalRepaymentCtl,
-          ),
+          _buildInfoRowPopUpBoldInput("ទឹកប្រាក់ពិន័យ", totalPenaltyCtl),
+          _buildInfoRowPopUpBoldInput("ទឹកប្រាក់ត្រូវបង់", totalRepaymentCtl),
           // 8.height,
           // Row(
           //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,59 +64,44 @@ class CustomerSheet extends StatelessWidget {
           const DarkGreyDivider(),
           15.height,
           // Type of service
-          _item(
-            title: 'វដ្ដទី៖  | ចំនួនយឺត  ថ្ងៃ',
-            value: '',
-          ),
+          _item(title: 'វដ្ដទី៖  | ចំនួនយឺត  ថ្ងៃ', value: ''),
           10.height,
 
           // Location
-          _item(
-            title: 'ប្រាក់កម្ចីជា៖  ភូមិ៖ ',
-            value: '',
-          ),
+          _item(title: 'ប្រាក់កម្ចីជា៖  ភូមិ៖ ', value: ''),
           10.height,
           const DarkGreyDivider(),
           10.height,
           // Total amount
-          _item(
-            title: 'ប្រាក់ដើមត្រូវបង់',
-            value: '',
-          ),
+          _item(title: 'ប្រាក់ដើមត្រូវបង់', value: ''),
           10.height,
           // Date
-          _item(
-            title: 'ការប្រាក់ត្រូវបង់',
-            value: '',
-          ),
+          _item(title: 'ការប្រាក់ត្រូវបង់', value: ''),
           10.height,
           // Destination phone number
-          _item(
-            title: "សេវាត្រូវបង់",
-            value: '0',
-          ),
+          _item(title: "សេវាត្រូវបង់", value: '0'),
 
           10.height,
-          _item(
-            title: "ប្រាក់ពីន័យត្រូវបង់",
-            value: '0',
-          ),
+          _item(title: "ប្រាក់ពីន័យត្រូវបង់", value: '0'),
           10.height,
           // Change
-          PrimaryButton(
-            text: LocaleKeys.confirmation.tr,
-            onPressed: loginTab,
-          ),
-          ]
+          PrimaryButton(text: LocaleKeys.confirmation.tr, onPressed: loginTab),
+        ],
       ),
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Widget _item({
@@ -139,7 +115,10 @@ class CustomerSheet extends StatelessWidget {
       children: [
         Text(
           title,
-          style: isTotal ? AppTextStyle.normalPrimarySemiBold : AppTextStyle.normalPrimaryRegular,
+          style:
+              isTotal
+                  ? AppTextStyle.normalPrimarySemiBold
+                  : AppTextStyle.normalPrimaryRegular,
         ),
         const Spacer(),
         if (phoneNumber.isNotEmpty)
@@ -152,7 +131,10 @@ class CustomerSheet extends StatelessWidget {
                     children: [
                       CircleIcon(
                         icon: Icons.telegram,
-                        onTap: () => UrlLauncherManager.telegram(UserRepository.shared.telegram),
+                        onTap:
+                            () => UrlLauncherManager.telegram(
+                              UserRepository.shared.telegram,
+                            ),
                       ),
                       12.width,
                     ],
@@ -167,13 +149,20 @@ class CustomerSheet extends StatelessWidget {
           ),
         Text(
           value,
-          style: isTotal ? AppTextStyle.normalRedBold : AppTextStyle.normalPrimaryRegular,
+          style:
+              isTotal
+                  ? AppTextStyle.normalRedBold
+                  : AppTextStyle.normalPrimaryRegular,
         ),
       ],
     );
   }
 }
-Widget _buildInfoRowPopUpBoldInput(String label, TextEditingController controller) {
+
+Widget _buildInfoRowPopUpBoldInput(
+  String label,
+  TextEditingController controller,
+) {
   final totalPaid = controller;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -195,7 +184,9 @@ Widget _buildInfoRowPopUpBoldInput(String label, TextEditingController controlle
           child: Padding(
             padding: const EdgeInsets.only(right: 2.0),
             child: TextFormField(
-              keyboardType: TextInputType.number, // Use TextInputType.text for general text input
+              keyboardType:
+                  TextInputType
+                      .number, // Use TextInputType.text for general text input
               controller: totalPaid,
               style: const TextStyle(fontSize: 18.0, color: Colors.black),
               decoration: InputDecoration(
@@ -225,7 +216,6 @@ Widget _buildInfoRowPopUpBoldInput(String label, TextEditingController controlle
                   width: 20.0, // Set the desired width
                   height: 20.0, // Set the desired height
                   child: Image.asset('assets/images/moneyx.png'),
-
                 ),
               ),
             ),

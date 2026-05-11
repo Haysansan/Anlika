@@ -31,12 +31,8 @@ class WrittenoffSheet extends StatelessWidget {
   }
 
   Future<void> submitBooking() async {
-
-    if(totalRepaymentCtl.text==""){
-      DialogManager.showDialog(
-        title: "Waring",
-        subTitle: "សូមបញ្ចូលទឹកប្រាក់",
-      );
+    if (totalRepaymentCtl.text == "") {
+      DialogManager.showDialog(title: "Waring", subTitle: "សូមបញ្ចូលទឹកប្រាក់");
       return;
     }
 
@@ -52,41 +48,41 @@ class WrittenoffSheet extends StatelessWidget {
       int? user_id = await getUserId();
       int? maxId = await DatabaseHelper.instance.getCollectedMaxId();
       try {
-        await DatabaseHelper.instance.insertCollected(
-
-            {
-              'id': maxId,
-              'client': WOLoan.client,
-              'loan_officer': user_id,
-              'created_by_id': user_id,
-              'branch': WOLoan.branch,
-              'client_id': WOLoan.client_id,
-              'loan_id': WOLoan.loan_id,
-              'client_code': WOLoan.client_code,
-              'photo': WOLoan.photo,
-              'total_repayment': double.parse(totalRepaymentCtl.text.replaceAll(",", "")),
-              'amount_penalty' : totalPenaltyCtl.text,
-              'currency_id': 2,
-              'description': "Post Repayment",
-              'gateway_id': 1,
-              "status_pay": "មិនទាន់អនុម័ត",
-              'submitted_on': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-              'syncedate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-              'synced': "1"
-            }
-        );
+        await DatabaseHelper.instance.insertCollected({
+          'id': maxId,
+          'client': WOLoan.client,
+          'loan_officer': user_id,
+          'created_by_id': user_id,
+          'branch': WOLoan.branch,
+          'client_id': WOLoan.client_id,
+          'loan_id': WOLoan.loan_id,
+          'client_code': WOLoan.client_code,
+          'photo': WOLoan.photo,
+          'total_repayment': double.parse(
+            totalRepaymentCtl.text.replaceAll(",", ""),
+          ),
+          'amount_penalty': totalPenaltyCtl.text,
+          'currency_id': 2,
+          'description': "Post Repayment",
+          'gateway_id': 1,
+          "status_pay": "មិនទាន់អនុម័ត",
+          'submitted_on': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          'syncedate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          'synced': "1",
+        });
       } catch (e) {
         print("Sync failed: $e");
         DialogManager.showDialog(
           title: LocaleKeys.error.tr,
-          subTitle: "អតិថិជនមិនផ្ដាច់បានទេ សូមធ្វើការផ្ទេរទិន្នន័យទៅប្រព័ន្ធជាមុនសិន",
+          subTitle:
+              "អតិថិជនមិនផ្ដាច់បានទេ សូមធ្វើការផ្ទេរទិន្នន័យទៅប្រព័ន្ធជាមុនសិន",
         );
         return;
       }
 
       dio.FormData formData = dio.FormData.fromMap({
         // This static because of feature removed
-        'id':maxId,
+        'id': maxId,
         'client': WOLoan.client,
         'loan_officer': user_id,
         'created_by_id': user_id,
@@ -97,7 +93,7 @@ class WrittenoffSheet extends StatelessWidget {
         'submitted_on': DateFormat('yyyy-MM-dd').format(DateTime.now()),
         'photo': WOLoan.photo,
         'amount': double.parse(totalRepaymentCtl.text.replaceAll(",", "")),
-        'amount_penalty' : totalPenaltyCtl.text,
+        'amount_penalty': totalPenaltyCtl.text,
         'currency_id': 2,
         'description': "Post Repayment",
         'gateway_id': 1,
@@ -114,7 +110,6 @@ class WrittenoffSheet extends StatelessWidget {
         subTitle: LocaleKeys.youHaveSuccessfullyCreated.tr,
         onPressed: () => Get.back(result: true),
       );
-
     } catch (e) {
       ExceptionHandler.handleException(e);
     }
@@ -122,78 +117,81 @@ class WrittenoffSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       bottom: false,
       child: Form(
         key: formKey,
         child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              30.height,
-              // _buildInfoRowPopUpBoldInput(
-              //   "ទឹកប្រាក់ពិន័យ",
-              //   totalPenaltyCtl,
-              // ),
-              _buildInfoRowPopUpBoldInput(
-                LocaleKeys.amttoclose.tr,
-                totalRepaymentCtl,
-              ),
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            30.height,
+            // _buildInfoRowPopUpBoldInput(
+            //   "ទឹកប្រាក់ពិន័យ",
+            //   totalPenaltyCtl,
+            // ),
+            _buildInfoRowPopUpBoldInput(
+              LocaleKeys.amttoclose.tr,
+              totalRepaymentCtl,
+            ),
 
-              15.height,
-              const DarkGreyDivider(),
-              15.height,
+            15.height,
+            const DarkGreyDivider(),
+            15.height,
 
-              // Location
-              _item(
-                title: LocaleKeys.amttoclose.tr,
-                value: WOLoan.total_repayment,
-              ),
-              10.height,
-              const DarkGreyDivider(),
-              10.height,
-              // Total amount
-              _item(
-                title: LocaleKeys.principals.tr,
-                value: '${ formatCurrency(WOLoan.principal.toString()) }',
-              ),
-              10.height,
-              // Date
-              _item(
-                title: LocaleKeys.interast.tr,
-                value: '${ formatCurrency(WOLoan.interest.toString()) }',
-              ),
-              10.height,
-              // Destination phone number
-              _item(
-                title: LocaleKeys.fee.tr,
-                value: '${ formatCurrency(WOLoan.monthly_fee.toString()) }',
-              ),
+            // Location
+            _item(
+              title: LocaleKeys.amttoclose.tr,
+              value: WOLoan.total_repayment,
+            ),
+            10.height,
+            const DarkGreyDivider(),
+            10.height,
+            // Total amount
+            _item(
+              title: LocaleKeys.principals.tr,
+              value: '${formatCurrency(WOLoan.principal.toString())}',
+            ),
+            10.height,
+            // Date
+            _item(
+              title: LocaleKeys.interast.tr,
+              value: '${formatCurrency(WOLoan.interest.toString())}',
+            ),
+            10.height,
+            // Destination phone number
+            _item(
+              title: LocaleKeys.fee.tr,
+              value: '${formatCurrency(WOLoan.monthly_fee.toString())}',
+            ),
 
-              10.height,
-              _item(
-                title: LocaleKeys.penalty.tr,
-                value: "0",
-              ),
-              10.height,
-              // Change
-              PrimaryButton(
-                text: LocaleKeys.confirmation.tr,
-                onPressed: submitBooking,
-              ),
-              70.height,
-            ]
+            10.height,
+            _item(title: LocaleKeys.penalty.tr, value: "0"),
+            10.height,
+            // Change
+            PrimaryButton(
+              text: LocaleKeys.confirmation.tr,
+              onPressed: submitBooking,
+            ),
+            70.height,
+          ],
         ),
       ),
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))} រៀល'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
+
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))} រៀល'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Widget _item({
@@ -207,7 +205,10 @@ class WrittenoffSheet extends StatelessWidget {
       children: [
         Text(
           title,
-          style: isTotal ? AppTextStyle.normalPrimarySemiBold : AppTextStyle.normalPrimaryRegular,
+          style:
+              isTotal
+                  ? AppTextStyle.normalPrimarySemiBold
+                  : AppTextStyle.normalPrimaryRegular,
         ),
         const Spacer(),
         if (phoneNumber.isNotEmpty)
@@ -220,7 +221,10 @@ class WrittenoffSheet extends StatelessWidget {
                     children: [
                       CircleIcon(
                         icon: Icons.telegram,
-                        onTap: () => UrlLauncherManager.telegram(UserRepository.shared.telegram),
+                        onTap:
+                            () => UrlLauncherManager.telegram(
+                              UserRepository.shared.telegram,
+                            ),
                       ),
                       12.width,
                     ],
@@ -235,14 +239,20 @@ class WrittenoffSheet extends StatelessWidget {
           ),
         Text(
           value,
-          style: isTotal ? AppTextStyle.normalRedBold : AppTextStyle.normalPrimaryRegular,
+          style:
+              isTotal
+                  ? AppTextStyle.normalRedBold
+                  : AppTextStyle.normalPrimaryRegular,
         ),
       ],
     );
   }
 }
 
-Widget _buildInfoRowPopUpBoldInput(String label, TextEditingController controller) {
+Widget _buildInfoRowPopUpBoldInput(
+  String label,
+  TextEditingController controller,
+) {
   final totalPaid = controller;
   final NumberFormat numberFormat = NumberFormat('#,###');
 

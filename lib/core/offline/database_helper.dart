@@ -123,7 +123,11 @@ class DatabaseHelper {
 
   Future<int> insertRepayment(Map<String, dynamic> row) async {
     Database db = await instance.database;
-    return await db.insert('Repayment', row);
+    return await db.insert(
+      'Repayment',
+      row,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<int> insertProduct(Map<String, dynamic> row) async {

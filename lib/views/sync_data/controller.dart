@@ -259,9 +259,15 @@ class SyncDataController extends GetxController {
         isShowLoading: false,
       );
 
+      // final data = getPropertyFromJson(res.data, 'data');
+      // for (var item
+      //     in data.map((json) => RepaymentModel.fromJson(json)).toList()) {
       final data = getPropertyFromJson(res.data, 'data');
+      if (data == null || data is! List) return;
       for (var item
-          in data.map((json) => RepaymentModel.fromJson(json)).toList()) {
+          in (data as List)
+              .map((json) => RepaymentModel.fromJson(json))
+              .toList()) {
         await DatabaseHelper.instance.insertRepayment({
           'id': item.id,
           'client': item.client,
@@ -307,8 +313,12 @@ class SyncDataController extends GetxController {
         queryParameters: params,
       );
 
+      // final data = getPropertyFromJson(res.data, 'data');
+      // for (var item in data.map((json) => StaffModel.fromJson(json)).toList()) {
       final data = getPropertyFromJson(res.data, 'data');
-      for (var item in data.map((json) => StaffModel.fromJson(json)).toList()) {
+      if (data == null || data is! List) return;
+      for (var item
+          in (data as List).map((json) => StaffModel.fromJson(json)).toList()) {
         await DatabaseHelper.instance.insertStaff({
           'id': item.id,
           'name': item.name,
@@ -338,15 +348,20 @@ class SyncDataController extends GetxController {
     int? branchId = await getBranchId();
     try {
       final Map<String, dynamic> params = {'branch_id': branchId};
-
       final res = await Get.find<ApiService>().get(
         EndPoints.getproducts,
         queryParameters: params,
       );
 
-      final data = getPropertyFromJson(res.data, 'data');
+      // final data = getPropertyFromJson(res.data, 'data');
+      // for (var item
+      //     in data.map((json) => ProductModel.fromJson(json)).toList()) {
+      final data = getPropertyFromJson(res.data, 'data.loan_products');
+      if (data == null || data is! List) return;
       for (var item
-          in data.map((json) => ProductModel.fromJson(json)).toList()) {
+          in (data as List)
+              .map((json) => ProductModel.fromJson(json))
+              .toList()) {
         await DatabaseHelper.instance.insertProduct({
           'id': item.id,
           'name': item.name,
@@ -380,9 +395,15 @@ class SyncDataController extends GetxController {
         isShowLoading: false,
       );
 
+      // final data = getPropertyFromJson(res.data, 'data');
+      // for (var item
+      //     in data.map((json) => PaymentModel.fromJson(json)).toList()) {
       final data = getPropertyFromJson(res.data, 'data');
+      if (data == null || data is! List) return;
       for (var item
-          in data.map((json) => PaymentModel.fromJson(json)).toList()) {
+          in (data as List)
+              .map((json) => PaymentModel.fromJson(json))
+              .toList()) {
         await DatabaseHelper.instance.insertCollected({
           'id': item.id,
           'client': item.client,
@@ -420,11 +441,20 @@ class SyncDataController extends GetxController {
   }
 
   // Method to simulate data sync process
+  // Future<void> fetchSyncData() async {
+  //   WakelockPlus.enable();
+  //   isLoading.value = true; // Start loading
+  //   progress.value = 0.0; // Reset progress
+  //   DatabaseHelper.instance.truncateTable(
+  //     DateFormat('yyyy-MM-dd').format(DateTime.now()),
+  //   );
   Future<void> fetchSyncData() async {
     WakelockPlus.enable();
-    isLoading.value = true; // Start loading
-    progress.value = 0.0; // Reset progress
-    DatabaseHelper.instance.truncateTable(
+    isLoading.value = true;
+    progress.value = 0.0;
+
+    // ← add await so table is cleared BEFORE inserts start
+    await DatabaseHelper.instance.truncateTable(
       DateFormat('yyyy-MM-dd').format(DateTime.now()),
     );
 

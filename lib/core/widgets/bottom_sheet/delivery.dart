@@ -214,12 +214,19 @@ class DeliverySheet extends StatelessWidget {
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'
+  //           .replaceAll('.00', '')
+  //       : 'N/A';
+  // }
+
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'
-            .replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Widget _item({
@@ -357,6 +364,7 @@ Widget _buildInfoRowPopUpBoldInput(
     ),
   );
 }
+
 // Widget _buildInfoRowPopUpBoldInput(String label, TextEditingController controller) {
 //   final totalPaid = controller;
 //
