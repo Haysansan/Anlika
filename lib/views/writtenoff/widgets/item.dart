@@ -13,18 +13,17 @@ class WrittenoffWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => BottomSheetManager.custom(content: WrittenoffSheet(WOLoan: WOLoan)),
+      onTap:
+          () => BottomSheetManager.custom(
+            content: WrittenoffSheet(WOLoan: WOLoan),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Container(
             decoration: BoxDecoration(
               borderRadius: UIConstants.radius.radiusAll,
-              border: Border.all(
-                width: 1,
-                color: _customColor('ជោគជ័យ'),
-              ),
+              border: Border.all(width: 1, color: _customColor('ជោគជ័យ')),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -42,7 +41,7 @@ class WrittenoffWidget extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    '${WOLoan.client} (វដ្គទី ${WOLoan.cycle})' ,
+                    '${WOLoan.client} (វដ្គទី ${WOLoan.cycle})',
                     style: AppTextStyle.normalPrimarySemiBold.copyWith(
                       color: Color(0xFF171617),
                     ),
@@ -74,7 +73,7 @@ class WrittenoffWidget extends StatelessWidget {
                                   style: AppTextStyle.smallGreyRegular,
                                 ),
                                 Text(
-                                  'ប្រាក់កម្ចី៖ ${ formatCurrency(WOLoan.principal.toString()) }',
+                                  'ប្រាក់កម្ចី៖ ${formatCurrency(WOLoan.principal.toString())}',
                                   style: AppTextStyle.smallPrimaryRegular,
                                 ),
                               ],
@@ -109,15 +108,15 @@ class WrittenoffWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-
                     TextButton(
                       child: Text(
-                        'ប្រាក់ត្រូវបង់ផ្ដាច់៖ ${ formatCurrency(WOLoan.total_repayment.toString()) }',
+                        'ប្រាក់ត្រូវបង់ផ្ដាច់៖ ${formatCurrency(WOLoan.total_repayment.toString())}',
                         style: AppTextStyle.smallPrimaryRegular,
                       ),
-                      onPressed: () {/* ... */},
+                      onPressed: () {
+                        /* ... */
+                      },
                     ),
-
                   ],
                 ),
               ],
@@ -128,11 +127,17 @@ class WrittenoffWidget extends StatelessWidget {
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))} រៀល'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))} រៀល'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Color _customColor(String status) {

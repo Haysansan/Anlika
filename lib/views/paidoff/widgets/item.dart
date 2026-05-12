@@ -13,11 +13,13 @@ class PaidOffItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => BottomSheetManager.custom(content: PaidOffSheet(delivery: delivery)),
+      onTap:
+          () => BottomSheetManager.custom(
+            content: PaidOffSheet(delivery: delivery),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           // Container(
           //   padding: 12.padAll,
           //   decoration: BoxDecoration(
@@ -95,10 +97,7 @@ class PaidOffItemWidget extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: UIConstants.radius.radiusAll,
-              border: Border.all(
-                width: 1,
-                color: _customColor('ជោគជ័យ'),
-              ),
+              border: Border.all(width: 1, color: _customColor('ជោគជ័យ')),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -116,7 +115,7 @@ class PaidOffItemWidget extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    '${delivery.client} (វដ្គទី ${delivery.cycle})' ,
+                    '${delivery.client} (វដ្គទី ${delivery.cycle})',
                     style: AppTextStyle.normalPrimarySemiBold.copyWith(
                       color: Color(0xFF171617),
                     ),
@@ -192,7 +191,9 @@ class PaidOffItemWidget extends StatelessWidget {
                         'ប្រាក់ត្រូវបង់ផ្ដាច់៖ ${formatCurrency(delivery.total_repayment.toString())} រៀល',
                         style: AppTextStyle.normalSecondaryBold,
                       ),
-                      onPressed: () {/* ... */},
+                      onPressed: () {
+                        /* ... */
+                      },
                     ),
                     // TextButton(
                     //   child: Text(
@@ -213,11 +214,17 @@ class PaidOffItemWidget extends StatelessWidget {
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Color _customColor(String status) {

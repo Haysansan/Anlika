@@ -25,7 +25,6 @@ class PaidOffController extends GetxController {
 
   final StartController startCtl = Get.find<StartController>();
 
-
   @override
   void onInit() {
     super.onInit();
@@ -43,13 +42,11 @@ class PaidOffController extends GetxController {
     int? user_id = await SharedPreferencesManager.getIntValue('user_id');
     return user_id;
   }
+
   Future<int?> getBranchId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return SharedPreferencesManager.getIntValue('branch_id');
   }
-
-
-
 
   Future<void> fetchRepayment({
     bool isRefresh = false,
@@ -82,7 +79,6 @@ class PaidOffController extends GetxController {
 
       String endPoint = EndPoints.PaidLoan;
 
-
       final res = await Get.find<ApiService>().get(
         endPoint,
         queryParameters: params,
@@ -103,11 +99,23 @@ class PaidOffController extends GetxController {
       // total = getPropertyFromJson(res.data['totalAmount'], 'total') ?? 0;
       // pagination.checkLoadMore((data['data'] as List).length);
 
+      // if (isRefresh) {
+      //   repaymentModels.value = List<PaidOffModel>.from(
+      //     (data as List).map((e) => PaidOffModel.fromJson(e)).toList(),
+      //   );
+      // } else {
+      //   repaymentModels.addAll(
+      //     List<PaidOffModel>.from(
+      //       (data as List).map((e) => PaidOffModel.fromJson(e)).toList(),
+      //     ),
+      //   );
+      // }
       if (isRefresh) {
         repaymentModels.value = List<PaidOffModel>.from(
           (data as List).map((e) => PaidOffModel.fromJson(e)).toList(),
         );
       } else {
+        repaymentModels.clear();
         repaymentModels.addAll(
           List<PaidOffModel>.from(
             (data as List).map((e) => PaidOffModel.fromJson(e)).toList(),
@@ -125,33 +133,31 @@ class PaidOffController extends GetxController {
   }
 
   Future<void> fetchRepaymentSearch({
-        bool isRefresh = false,
-        bool isLoadMore = false,
-        bool isFilter = false,
+    bool isRefresh = false,
+    bool isLoadMore = false,
+    bool isFilter = false,
   }) async {
-
-    if(isFilter==true) {
+    if (isFilter == true) {
       String searchText = searchCtl.text.toLowerCase();
       repaymentModels.value = List<PaidOffModel>.from(
         repaymentModels.value.where(
-              (item) => item.client.toLowerCase().contains(searchText),
+          (item) => item.client.toLowerCase().contains(searchText),
         ),
       );
-    }else{
+    } else {
       onRefresh();
     }
   }
 
   Future<void> onRefresh({bool isFilter = false}) async {
-    await  fetchRepayment(isRefresh: true, isFilter: isFilter);
+    await fetchRepayment(isRefresh: true, isFilter: isFilter);
     refreshCtl.refreshCompleted();
   }
 
   Future<void> onLoading() async {
-    await  fetchRepayment(isLoadMore: true);
+    await fetchRepayment(isLoadMore: true);
     refreshCtl.loadComplete();
   }
-
 
   void setSearchValue() {
     selectedStatusValue.value = 0;
@@ -164,10 +170,18 @@ class PaidOffController extends GetxController {
   void clearFitler() {
     searchCtl.text = '';
   }
+
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'
+  //           .replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 }

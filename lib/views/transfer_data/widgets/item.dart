@@ -6,7 +6,8 @@ import 'package:apploan/models/models.dart';
 import 'package:apploan/views/views.dart';
 
 class TransferItemWidget extends StatelessWidget {
-  const TransferItemWidget({Key? key, required this.delivery}) : super(key: key);
+  const TransferItemWidget({Key? key, required this.delivery})
+    : super(key: key);
 
   final PaymentModel delivery;
 
@@ -41,15 +42,11 @@ class TransferItemWidget extends StatelessWidget {
           padding: 12.padAll,
           decoration: BoxDecoration(
             borderRadius: UIConstants.radius.radiusAll,
-            border: Border.all(
-              width: 1,
-              color: _customColor('បញ្ចប់'),
-            ),
+            border: Border.all(width: 1, color: _customColor('បញ្ចប់')),
           ),
           child: Row(
             children: [
               // Logo
-
               CircleAvatar(
                 radius: 30,
                 backgroundColor: AppColor.white,
@@ -73,7 +70,9 @@ class TransferItemWidget extends StatelessWidget {
                         6.width,
                         Expanded(
                           child: Text(
-                            delivery.loan_id == 1 ? '(${delivery.loan_id})' : '',
+                            delivery.loan_id == 1
+                                ? '(${delivery.loan_id})'
+                                : '',
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
@@ -94,7 +93,8 @@ class TransferItemWidget extends StatelessWidget {
                     // Zone
                     SizedBox(
                       width: Get.width * 0.4,
-                      child: Text('CID ${delivery.client_code}',
+                      child: Text(
+                        'CID ${delivery.client_code}',
                         maxLines: 2,
                         style: AppTextStyle.smallGreyRegular,
                       ),
@@ -115,11 +115,17 @@ class TransferItemWidget extends StatelessWidget {
     );
   }
 
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 
   Color _customColor(String status) {

@@ -28,7 +28,6 @@ class RepaymentController extends GetxController {
 
   final StartController startCtl = Get.find<StartController>();
 
-
   @override
   void onInit() {
     super.onInit();
@@ -47,6 +46,7 @@ class RepaymentController extends GetxController {
     int? branchId = await SharedPreferencesManager.getIntValue('branch_id');
     return branchId;
   }
+
   // show user_id from login
   Future<int?> getUserId() async {
     int? user_id = await SharedPreferencesManager.getIntValue('user_id');
@@ -54,11 +54,10 @@ class RepaymentController extends GetxController {
   }
 
   Future<void> fetchRepayment({
-      bool isRefresh = false,
-      bool isLoadMore = false,
-      bool isFilter = false,
-    }) async {
-
+    bool isRefresh = false,
+    bool isLoadMore = false,
+    bool isFilter = false,
+  }) async {
     try {
       if (isRefresh) {
         if (!isFilter) {
@@ -86,13 +85,16 @@ class RepaymentController extends GetxController {
 
       // total = getPropertyFromJson(res.data['totalAmount'], 'total') ?? 0;
       // pagination.checkLoadMore((data['data'] as List).length);
-        _calculateSum();
-        _countCustomers();
-        if (isRefresh) {
-          repaymentModel.value = await DatabaseHelper.instance.queryAllRowsRepayments(1);
-        } else {
-          repaymentModel.addAll(await DatabaseHelper.instance.queryAllRowsRepayments(1));
-        }
+      _calculateSum();
+      _countCustomers();
+      if (isRefresh) {
+        repaymentModel.value = await DatabaseHelper.instance
+            .queryAllRowsRepayments(1);
+      } else {
+        repaymentModel.addAll(
+          await DatabaseHelper.instance.queryAllRowsRepayments(1),
+        );
+      }
     } catch (e) {
       if (isClosed) {
         return;
@@ -103,17 +105,21 @@ class RepaymentController extends GetxController {
     }
   }
 
-
   ///Repayment
   double sum = 0;
 
   Future<void> _calculateSum() async {
     // Fetch all rows for a specific condition, here assuming `1` is a parameter.
-    List<RepaymentModel> rows = await DatabaseHelper.instance.queryAllRowsRepayments(1);
+    List<RepaymentModel> rows = await DatabaseHelper.instance
+        .queryAllRowsRepayments(1);
     // Use fold to accumulate the sum of all total_repayment values
-    sum = rows.fold(0.0, (prev, element) => prev + double.parse(element.total_repayment));
+    sum = rows.fold(
+      0.0,
+      (prev, element) => prev + double.parse(element.total_repayment),
+    );
     totalAmount.text = formatCurrency(sum.toString());
   }
+
   ///Repayment
   int customerCount = 0;
   Future<void> _countCustomers() async {
@@ -123,29 +129,31 @@ class RepaymentController extends GetxController {
   }
 
   Future<void> fetchRepaymentSearch({
-        bool isRefresh = false,
-        bool isLoadMore = false,
-        bool isFilter = false,
+    bool isRefresh = false,
+    bool isLoadMore = false,
+    bool isFilter = false,
   }) async {
-
-    if(isFilter==true) {
+    if (isFilter == true) {
       String searchText = searchCtl.text.toLowerCase();
       repaymentModel.value = List<RepaymentModel>.from(
         repaymentModel.value.where(
-              (item) => item.client.toLowerCase().contains(searchText) || item.client_code.toLowerCase().contains(searchText),
+          (item) =>
+              item.client.toLowerCase().contains(searchText) ||
+              item.client_code.toLowerCase().contains(searchText),
         ),
       );
-    }else{
+    } else {
       onRefresh();
     }
   }
+
   Future<void> onRefresh({bool isFilter = false}) async {
-    await  fetchRepayment(isRefresh: true, isFilter: isFilter);
+    await fetchRepayment(isRefresh: true, isFilter: isFilter);
     refreshCtl.refreshCompleted();
   }
 
   Future<void> onLoading() async {
-    await  fetchRepayment(isLoadMore: true);
+    await fetchRepayment(isLoadMore: true);
     refreshCtl.loadComplete();
   }
 
@@ -161,11 +169,16 @@ class RepaymentController extends GetxController {
     searchCtl.text = '';
   }
 
-
+  // String formatCurrency(String amount) {
+  //   // ignore: unnecessary_null_comparison
+  //   return amount != null
+  //       ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+  //       : 'N/A';
+  // }
   String formatCurrency(String amount) {
-    // ignore: unnecessary_null_comparison
-    return amount != null
-        ? '${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-        : 'N/A';
+    final parsed = double.tryParse(amount);
+    if (parsed == null) return 'N/A';
+    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
+        .replaceAll('.00', '');
   }
 }

@@ -17,8 +17,8 @@ class ClientPrepaidModel {
   // }
   factory ClientPrepaidModel.fromJson(Map<String, dynamic> json) {
     return ClientPrepaidModel(
-      id: json["id"].toString(), // ← was: json["id"] ?? "0"
-      name: json["name"] ?? 'N/A',
+      id: json["id"]?.toString() ?? "0",
+      name: json["client"] ?? 'N/A', // ← API sends "client" not "name"
       client_code: json["client_code"] ?? 'N/A',
     );
   }

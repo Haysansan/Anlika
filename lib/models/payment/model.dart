@@ -32,7 +32,8 @@ class PaymentModel {
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) {
     return PaymentModel(
-      id: json['id'] ?? 'N/A',
+      // id: json['id'] ?? 'N/A',
+      id: int.tryParse(json['id'].toString()) ?? 0,
       client: json['client'] ?? 'N/A',
       photo: json['photo'] ?? 'N/A',
       loan_officer: json['loan_officer'] ?? 'N/A',
@@ -45,7 +46,8 @@ class PaymentModel {
       payment_type: json['payment_type'] ?? 'N/A',
       status_pay: json['status_pay'] ?? 'N/A',
       syncedate: json['syncedate'] ?? 'N/A',
-      synced: json['synced'] ?? "0",
+      // synced: json['synced'] ?? "0",
+      synced: json['synced']?.toString() ?? '0',
     );
   }
 }
