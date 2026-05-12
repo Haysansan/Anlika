@@ -141,7 +141,6 @@ class DrawerWidget extends StatelessWidget {
                 //   onTap: termConditionHandleTap,
                 // ),
                 // 16.height,
-                16.height,
 
                 // Log out
                 CustomListTile(
@@ -150,6 +149,7 @@ class DrawerWidget extends StatelessWidget {
                   trillingIconData: Icons.arrow_forward_ios_rounded,
                   onTap: () => _showDeleteDialog(context),
                 ),
+                16.height,
                 // Contact us
                 CustomListTile(
                   leadingIconData: Icons.contact_support,
