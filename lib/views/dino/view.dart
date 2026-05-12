@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+// class DinoView extends GetView<DinoController> {
+//   DinoView({super.key});
+//   final DinoController c = Get.put(DinoController());
 class DinoView extends GetView<DinoController> {
-  DinoView({super.key});
-  final DinoController c = Get.put(DinoController());
+  const DinoView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,9 @@ class DinoView extends GetView<DinoController> {
               //   shrinkWrap: true,
               //   physics: NeverScrollableScrollPhysics(),
               //   padding: EdgeInsets.all(0),
-              //   itemCount: c.denominations.length,
+              //   itemCount: controller.denominations.length,
               //   itemBuilder: (context, index) {
-              //     int denom = c.denominations[index];
+              //     int denom = controller.denominations[index];
               //     return _buildDenomRow(denom);
               //   },
               // ),
@@ -79,7 +81,7 @@ class DinoView extends GetView<DinoController> {
             ],
           ),
           // DATA ROWS
-          ...c.denominations.map(
+          ...controller.denominations.map(
             (denom) => TableRow(
               children: [
                 _tableCell(
@@ -92,7 +94,7 @@ class DinoView extends GetView<DinoController> {
                   () => _tableCell(
                     NumberFormat(
                       '#,###',
-                    ).format(denom * (c.quantities[denom] ?? 0)),
+                    ).format(denom * (controller.quantities[denom] ?? 0)),
                     align: Alignment.centerRight,
                   ),
                 ),
@@ -128,7 +130,7 @@ class DinoView extends GetView<DinoController> {
   Widget _inputCell(int denom) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      child: _inputField((val) => c.updateQty(denom, val)),
+      child: _inputField((val) => controller.updateQty(denom, val)),
     );
   }
 
@@ -173,7 +175,7 @@ class DinoView extends GetView<DinoController> {
           Container(
             width: 90,
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: _inputField((val) => c.updateQty(denom, val)),
+            child: _inputField((val) => controller.updateQty(denom, val)),
           ),
 
           // Column 4: Row Total (Flexible - takes remaining space)
@@ -183,7 +185,7 @@ class DinoView extends GetView<DinoController> {
               () => _cell(
                 NumberFormat(
                   '#,###',
-                ).format(denom * (c.quantities[denom] ?? 0)),
+                ).format(denom * (controller.quantities[denom] ?? 0)),
                 align: Alignment.centerRight,
               ),
             ),
@@ -236,7 +238,7 @@ class DinoView extends GetView<DinoController> {
               () => Text(
                 NumberFormat(
                   '#,###',
-                ).format(double.tryParse(c.denoTotal.toString()) ?? 0),
+                ).format(double.tryParse(controller.denoTotal.toString()) ?? 0),
               ),
             ),
           ),
@@ -255,20 +257,21 @@ class DinoView extends GetView<DinoController> {
         children: [
           _balanceInputRow(
             "1- លុយបានទម្លាក់ទុន",
-            (val) => c.receivedAmt.value = double.tryParse(val) ?? 0,
-            controller: c.receivedAmtController,
+            (val) => controller.receivedAmt.value = double.tryParse(val) ?? 0,
+            controller: controller.receivedAmtController,
             readOnly: true,
           ),
           _balanceInputRow(
             "2- សេវារដ្ឋបាល",
-            (val) => c.adminFee.value = double.tryParse(val) ?? 0,
-            controller: c.adminFeeController,
+            (val) => controller.adminFee.value = double.tryParse(val) ?? 0,
+            controller: controller.adminFeeController,
             readOnly: true,
           ),
           _balanceInputRow(
             "3- លុយប្រមូលសរុប",
-            (val) => c.collectedTotal.value = double.tryParse(val) ?? 0,
-            controller: c.collectedTotalController,
+            (val) =>
+                controller.collectedTotal.value = double.tryParse(val) ?? 0,
+            controller: controller.collectedTotalController,
             readOnly: true,
           ),
           SizedBox(height: 10),
@@ -299,7 +302,7 @@ class DinoView extends GetView<DinoController> {
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Obx(
                 () => Text(
-                  c.overShortage.toStringAsFixed(0),
+                  controller.overShortage.toStringAsFixed(0),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

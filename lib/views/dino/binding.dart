@@ -4,6 +4,6 @@ import 'package:apploan/views/views.dart';
 class DinoBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CustomersController>(() => CustomersController());
+    Get.lazyPut<DinoController>(() => DinoController());
   }
 }
