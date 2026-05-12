@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:apploan/views/repayment/repayment.dart';
 
 // class SyncDataController extends GetxController {
 //   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -229,14 +230,22 @@ class SyncDataController extends GetxController {
     super.onClose();
   }
 
+  // Future<int?> getBranchId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return SharedPreferencesManager.getIntValue('branch_id');
+  // }
   Future<int?> getBranchId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return SharedPreferencesManager.getIntValue('branch_id');
+    return await SharedPreferencesManager.get(Credential.branch_id.name)
+        as int?;
   }
 
+  // Future<int?> getUserId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return SharedPreferencesManager.getIntValue('user_id');
+  // }
+
   Future<int?> getUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return SharedPreferencesManager.getIntValue('user_id');
+    return await SharedPreferencesManager.get(Credential.user_id.name) as int?;
   }
 
   Future<void> fetchRepayment() async {
@@ -248,13 +257,13 @@ class SyncDataController extends GetxController {
         'user_id': userId,
       };
 
-      String endPoint = EndPoints.repayment;
-      if (UserRepository.shared.isDriver) {
-        endPoint = EndPoints.repayment;
-      }
+      // String endPoint = EndPoints.repayment;
+      // if (UserRepository.shared.isDriver) {
+      //   endPoint = EndPoints.repayment;
+      // }
 
       final res = await Get.find<ApiService>().get(
-        endPoint,
+        EndPoints.repayment,
         queryParameters: params,
         isShowLoading: false,
       );
@@ -463,12 +472,17 @@ class SyncDataController extends GetxController {
     try {
       await fetchRepayment();
       await fetchUser();
-      await fetchProduct();
-      await fetchCollected();
+      // await fetchProduct();
+      // await fetchCollected();
       // Simulate additional syncing steps with a delay
-      for (int i = 1; i <= 10; i++) {
+      for (int i = 1; i <= 5; i++) {
         await Future.delayed(Duration(seconds: 1)); // Simulate delay
-        progress.value = i / 10; // Update progress
+        progress.value = i / 5; // Update progress
+      }
+
+      // ← reload repayment screen data after sync
+      if (Get.isRegistered<RepaymentController>()) {
+        await Get.find<RepaymentController>().onRefresh();
       }
 
       // Show success dialog

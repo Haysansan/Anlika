@@ -316,8 +316,9 @@ class Locales {
     'unableToPickImagePleaseTryAgain':
         'Unable to pick image. Please try again.',
     'successfully': 'Success',
-    'youHavesuccessfullyCreatedTheBooking': 'អ្នកបានបង្កើតការកក់ដោយជោគជ័យ',
-    'youHavesuccessfullysyncData': 'អ្នកបានទាញទិន្នន័យពីប្រព័ន្ធដោយជោគជ័យ',
+    'youHavesuccessfullyCreatedTheBooking':
+        'You have successfully created the booking',
+    'youHavesuccessfullysyncData': 'You have successfully sync data',
     'forgotPassword': 'Forgot password',
     'password': 'Password',
     'cannotBeEmpty': 'Can\'t be empty',

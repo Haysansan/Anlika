@@ -169,11 +169,11 @@ class DashboardWidget extends StatelessWidget {
                             // if (catName[index] == LocaleKeys.writtenoff.tr) {
                             //   WrittenOffHandleTap();
                             // } else
-                            //  if (catName[index] ==
-                            //     LocaleKeys.payforearchother.tr) {
-                            //   PayForEeachOtherHandleTap();
-                            // } else
-                            if (catName[index] == LocaleKeys.repaymentLoan.tr) {
+                            if (catName[index] ==
+                                LocaleKeys.payforearchother.tr) {
+                              PayForEeachOtherHandleTap();
+                            } else if (catName[index] ==
+                                LocaleKeys.repaymentLoan.tr) {
                               RepaymentHandleTap();
                             } else if (catName[index] ==
                                 LocaleKeys.datasync.tr) {
@@ -184,8 +184,8 @@ class DashboardWidget extends StatelessWidget {
                             } else if (catName[index] ==
                                 LocaleKeys.prepaid.tr) {
                               PrePaidHandleTap();
-                            } else if (catName[index] == 'DENO') {
-                              moneyCount();
+                              // } else if (catName[index] == 'DENO') {
+                              //   moneyCount();
                             } else if (catName[index] ==
                                 LocaleKeys.writtenoff.tr) {
                               WrittenOffHandleTap();
@@ -204,7 +204,7 @@ class DashboardWidget extends StatelessWidget {
                                   width: 50,
                                   decoration: BoxDecoration(
                                     color:
-                                        [2, 5, 6, 8, 9, 10].contains(index)
+                                        [2, 5, 6, 7, 8, 9].contains(index)
                                             ? catColors[index]
                                             : Color.fromARGB(255, 96, 152, 198),
                                     shape: BoxShape.circle,
