@@ -1,4 +1,4 @@
-package com.kh.sshmobile;
+package com.kh.anlikamobile;
 
 import io.flutter.embedding.android.FlutterActivity;
 
