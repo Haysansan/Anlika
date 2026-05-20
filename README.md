@@ -1,4 +1,4 @@
-# Bsbl Loan App
+# Anlika app
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/softcreative1/moblie-app/loans/bsbl_loan_app.git
+git remote add origin https://gitlab.com/Haysansan/anlika-app.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-* [Set up project integrations](https://gitlab.com/softcreative1/moblie-app/loans/bsbl_loan_app/-/settings/integrations)
+* [Set up project integrations](https://gitlab.com/Haysansan/anlika-app/-/settings/integrations)
 
 ## Collaborate with your team
 
