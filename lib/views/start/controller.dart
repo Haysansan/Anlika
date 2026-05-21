@@ -16,9 +16,11 @@ class StartController extends GetxController {
     screens = List.from([
       const DashboardView(),
       const PaymentCollectionView(),
-      const PaidOffView(),
+      // const PaidOffView(),
       // const PaymentCollectionView(),
       const DisburmentListView(),
+      // const ScanView(),
+      // const SettingsView(),
     ]);
     super.onInit();
   }
@@ -44,14 +46,14 @@ class StartController extends GetxController {
       final PaymentListController scanCtl = Get.find<PaymentListController>();
       scanCtl.fetchpaymentList();
     }
-    if (index == 2) {
-      final PaidOffController scanCtl = Get.find<PaidOffController>();
-      scanCtl.fetchRepayment();
-      // DialogManager.showDialog(
-      //   title: 'មិនអាចចូលបាន',
-      //   subTitle: 'មុខងារមិនទាន់អនុញ្ញាតអោយប្រើប្រាស់',
-      // );
-    }
+    // if (index == 2) {
+    //   final PaidOffController scanCtl = Get.find<PaidOffController>();
+    //   scanCtl.fetchRepayment();
+    //   // DialogManager.showDialog(
+    //   //   title: 'មិនអាចចូលបាន',
+    //   //   subTitle: 'មុខងារមិនទាន់អនុញ្ញាតអោយប្រើប្រាស់',
+    //   // );
+    // }
     if (index == 3) {
       final DisburmentListController scanCtl =
           Get.find<DisburmentListController>();
@@ -77,40 +79,45 @@ class StartController extends GetxController {
         icon: Icons.payment,
         onTap: () => changeMenu(1),
       ),
-      BottomBarWidget(
-        label: LocaleKeys.paidoff.tr,
-        isSelected: selectedIndex.value == 2,
-        icon: Icons.people_sharp,
-        onTap: () => changeMenu(2),
-      ),
+      // if (UserRepository.shared.isDriver)
+      //   const Spacer()
+      // else
+      //   BottomBarWidget(
+      //     label: LocaleKeys.scanner.tr,
+      //     isSelected: selectedIndex.value == 2,
+      //     icon: Icons.timelapse_outlined,
+      //     onTap: () => changeMenu(2),
+      //   ),
+      // if (UserRepository.shared.isDriver)
+      //   BottomBarWidget(
+      //     label: LocaleKeys.payment.tr,
+      //     isSelected: selectedIndex.value == 3,
+      //     icon: Icons.send,
+      //     onTap: () => changeMenu(3),
+      //   ),
       BottomBarWidget(
         label: LocaleKeys.loanDisbursmentsList.tr,
-        isSelected: selectedIndex.value == 3,
+        isSelected:
+            UserRepository.shared.isDriver
+                ? selectedIndex.value == 4
+                : selectedIndex.value == 3,
         icon: Icons.more,
-        onTap: () => changeMenu(3),
+        onTap: () => changeMenu(4),
       ),
     ];
     return items;
   }
 
   String getTitle() {
-    String title = 'StartView';
-
     switch (selectedIndex.value) {
       case 0:
-        title = LocaleKeys.dashboard;
-        break;
+        return LocaleKeys.dashboard.tr;
       case 1:
-        title = LocaleKeys.payments;
-        break;
+        return LocaleKeys.paymentslist.tr;
       case 2:
-        title = LocaleKeys.paidoff;
-        break;
-      case 3:
-        title = LocaleKeys.loanDisbursmentsList;
-        break;
+        return LocaleKeys.loanDisbursmentsList.tr;
+      default:
+        return "App";
     }
-
-    return title.tr;
   }
 }

@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static const primary = Color(0xFF0C55C3);
-  static const primaryText = Color(0xFF001F3F);
-  static const primaryBtn = Color(0xFF0C55C3);
+  static const primary = Color(0xFFF21A3E);
+  static const primaryText = Color(0xFF000000);
+  static const primaryBtn = Color(0xFFF21A3E);
 
-  static const secondary = Color(0xFF0C55C3);
+  static const secondary = Color(0xFFF21A3E);
   static const secondaryText = Color(0xFF000000);
 
   static const backgroundColor = Color(0xFFF5F5F5);
   static const divider = Color(0xFFE4E5E6);
 
   static const white = Color(0xFFFFFFFF);
-  static const green = Color(0xFFBB0120);
+  static const green = Color(0xFF01BB26);
   static const lightPink = Color(0xFFfffbff);
   static const transparent = Color(0x00000000);
   static const grey = Color(0xFF9E9E9E);
+  static const blueGrey = Color(0xFF9DB2CE);
   static const lightGrey = Color(0xFFD3D3D3);
   static const darkGrey = Color(0xFF7B808C);
   static const black = Color(0xFF000000);
   static const blue = Color(0xFF2196F3);
-  static const red = Color(0xFF8B0000);
+  static const red = Color(0xFFA80000);
   static const yellow = Color(0xFFFFEB3B);
 }
 
@@ -311,19 +312,71 @@ class AppStyle {
   }
 
   static const TextTheme _textTheme = TextTheme(
-    displayLarge: TextStyle(fontWeight: _regular, fontSize: 96.0, color: AppColor.primaryText),
-    displayMedium: TextStyle(fontWeight: _regular, fontSize: 60.0, color: AppColor.primaryText),
-    displaySmall: TextStyle(fontWeight: _regular, fontSize: 48.0, color: AppColor.primaryText),
-    headlineMedium: TextStyle(fontWeight: _regular, fontSize: 34.0, color: AppColor.primaryText),
-    headlineSmall: TextStyle(fontWeight: _regular, fontSize: 24.0, color: AppColor.primaryText),
-    titleLarge: TextStyle(fontWeight: _medium, fontSize: 18.0, color: AppColor.primaryText),
-    titleMedium: TextStyle(fontWeight: _regular, fontSize: 16.0, color: AppColor.primaryText),
-    titleSmall: TextStyle(fontWeight: _medium, fontSize: 14.0, color: AppColor.primaryText),
-    bodyLarge: TextStyle(fontWeight: _regular, fontSize: 14.0, color: AppColor.primaryText),
-    bodyMedium: TextStyle(fontWeight: _regular, fontSize: 12.0, color: AppColor.primaryText),
-    labelLarge: TextStyle(fontWeight: _semiBold, fontSize: 14.0, color: AppColor.primaryText),
-    bodySmall: TextStyle(fontWeight: _regular, fontSize: 16.0, color: AppColor.primaryText),
-    labelSmall: TextStyle(fontWeight: _regular, fontSize: 10.0, color: AppColor.primaryText),
+    displayLarge: TextStyle(
+      fontWeight: _regular,
+      fontSize: 96.0,
+      color: AppColor.primaryText,
+    ),
+    displayMedium: TextStyle(
+      fontWeight: _regular,
+      fontSize: 60.0,
+      color: AppColor.primaryText,
+    ),
+    displaySmall: TextStyle(
+      fontWeight: _regular,
+      fontSize: 48.0,
+      color: AppColor.primaryText,
+    ),
+    headlineMedium: TextStyle(
+      fontWeight: _regular,
+      fontSize: 34.0,
+      color: AppColor.primaryText,
+    ),
+    headlineSmall: TextStyle(
+      fontWeight: _regular,
+      fontSize: 24.0,
+      color: AppColor.primaryText,
+    ),
+    titleLarge: TextStyle(
+      fontWeight: _medium,
+      fontSize: 18.0,
+      color: AppColor.primaryText,
+    ),
+    titleMedium: TextStyle(
+      fontWeight: _regular,
+      fontSize: 16.0,
+      color: AppColor.primaryText,
+    ),
+    titleSmall: TextStyle(
+      fontWeight: _medium,
+      fontSize: 14.0,
+      color: AppColor.primaryText,
+    ),
+    bodyLarge: TextStyle(
+      fontWeight: _regular,
+      fontSize: 14.0,
+      color: AppColor.primaryText,
+    ),
+    bodyMedium: TextStyle(
+      fontWeight: _regular,
+      fontSize: 12.0,
+      color: AppColor.primaryText,
+    ),
+    labelLarge: TextStyle(
+      fontWeight: _semiBold,
+      fontSize: 14.0,
+      color: AppColor.primaryText,
+    ),
+    bodySmall: TextStyle(
+      fontWeight: _regular,
+      fontSize: 16.0,
+      color: AppColor.primaryText,
+    ),
+    labelSmall: TextStyle(
+      fontWeight: _regular,
+      fontSize: 10.0,
+      color: AppColor.primaryText,
+    ),
   );
 
   static const _regular = FontWeight.w400;
