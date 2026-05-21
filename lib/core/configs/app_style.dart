@@ -78,6 +78,12 @@ class AppTextStyle {
   );
 
   // fontSize: 18
+
+  static const mediumDrawerHeaderRegular = TextStyle(
+    color: Color(0xFF393681),
+    fontSize: 18,
+    fontWeight: AppStyle._regular,
+  );
   static const mediumPrimarySemiBold = TextStyle(
     color: AppColor.primaryText,
     fontSize: 18,
@@ -197,6 +203,7 @@ class AppTextStyle {
     fontSize: 14,
     fontWeight: AppStyle._regular,
   );
+
   static const normalWhiteRegular = TextStyle(
     color: AppColor.white,
     fontSize: 14,
@@ -224,6 +231,7 @@ class AppTextStyle {
   );
 
   // fontSize: 12
+
   static const smallPrimaryRegular = TextStyle(
     color: AppColor.primaryText,
     fontSize: 12,

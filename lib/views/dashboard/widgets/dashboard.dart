@@ -242,7 +242,7 @@ class DashboardWidget extends StatelessWidget {
                                     color:
                                         [0, 3, 4].contains(index)
                                             ? catColors[index]
-                                            : Color.fromARGB(255, 184, 49, 49),
+                                            : Color(0xFFA88787),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(child: catIcons[index]),
