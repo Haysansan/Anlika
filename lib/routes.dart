@@ -32,8 +32,11 @@ class Routes {
   static const String customers = '/customers';
   static const String addCustomer = '/addCustomer';
   static const String paidoff = '/paidoff';
-
   static const String dino = '/dino';
+  static const String loans = '/loans';
+  static const String quickRepay = '/quickRepay';
+  static const String reports = '/reports';
+  static const String leaves = '/leaves';
 
   static List<GetPage> pages = [
     GetPage(
@@ -158,5 +161,22 @@ class Routes {
     ),
 
     GetPage(name: dino, page: () => DinoView(), binding: DinoBinding()),
+
+    GetPage(
+      name: loans,
+      page: () => LoansDashboardView(),
+      binding: LoansDashboardBinding(),
+    ),
+    // GetPage(
+    //   name: quickRepay,
+    //   page: () => QuickRepayView(),
+    //   binding: QuickRepayBinding(),
+    // ),
+    // GetPage(
+    //   name: reports,
+    //   page: () => ReportsView(),
+    //   binding: ReportsBinding(),
+    // ),
+    // GetPage(name: leaves, page: () => LeavesView(), binding: LeavesBinding()),
   ];
 }

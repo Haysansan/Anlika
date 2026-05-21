@@ -7,25 +7,22 @@ import 'package:apploan/routes.dart';
 class DashboardWidget extends StatelessWidget {
   @override
   List catName = [
-    LocaleKeys.loanCalculator.tr,
-    LocaleKeys.loanDisbursments.tr,
-    LocaleKeys.repaymentLoan.tr,
-    LocaleKeys.areaLoan.tr,
-    LocaleKeys.customers.tr,
-    LocaleKeys.writtenoff.tr,
-    LocaleKeys.prepaid.tr,
-    LocaleKeys.payforearchother.tr,
-    LocaleKeys.datasync.tr,
+    // LocaleKeys.loanCalculator.tr,
+    // LocaleKeys.loanDisbursments.tr,
+    // LocaleKeys.repaymentLoan.tr,
+    // LocaleKeys.areaLoan.tr,
+    // LocaleKeys.customers.tr,
+    // LocaleKeys.writtenoff.tr,
+    // LocaleKeys.prepaid.tr,
+    // LocaleKeys.payforearchother.tr,
+    LocaleKeys.loans.tr,
+    LocaleKeys.quickRepay.tr,
+    LocaleKeys.reports.tr,
     LocaleKeys.datatransfer.tr,
-
-    'DENO',
+    LocaleKeys.datasync.tr,
+    LocaleKeys.leaves.tr,
   ];
   List<Color> catColors = [
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
     Color(0xFF5DAFF1),
     Color(0xFF5DAFF1),
     Color(0xFF5DAFF1),
@@ -42,18 +39,20 @@ class DashboardWidget extends StatelessWidget {
   int currentIndex = 0;
 
   final List<Widget> catIcons = [
-    Image.asset('assets/images/icon/calculator.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/disburme.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/repayment.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/calculator.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/disburme.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/repayment.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/arrear.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/customer.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/writtenoff.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/prepaid.png', width: 30, height: 30),
+    // Image.asset('assets/images/icon/paidofother.png', width: 30, height: 30),
+    Image.asset('assets/images/icon/loans.png', width: 30, height: 30),
+    Image.asset('assets/images/icon/quickrepay.png', width: 30, height: 30),
     Image.asset('assets/images/icon/arrear.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/customer.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/writtenoff.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/prepaid.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/paidofother.png', width: 30, height: 30),
+    Image.asset('assets/images/icon/transfer.png', width: 30, height: 30),
     Image.asset('assets/images/icon/sync.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/transfer.png', width: 30, height: 30),
-
-    Image.asset('assets/images/icon/transfer.png', width: 30, height: 30),
+    Image.asset('assets/images/icon/writtenoff.png', width: 30, height: 30),
   ];
   List getReport = ["អតិថិជនបានបង់", "អតិថិជនមិនបានបង់", "អតិថិជនត្រូវប្រមូល"];
 
@@ -70,10 +69,10 @@ class DashboardWidget extends StatelessWidget {
     // Icon(Icons.approval,color: Colors.white,size: 30),
   ];
 
-  void RepaymentHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.repayment);
-  }
+  // void RepaymentHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.repayment);
+  // }
 
   void SyncDataHandleTap() {
     Get.back();
@@ -85,44 +84,64 @@ class DashboardWidget extends StatelessWidget {
     Get.toNamed(Routes.transferData);
   }
 
-  void LoanCalculatorHandleTap() {
+  // void LoanCalculatorHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.loancalculator);
+  // }
+
+  // void LoanDisbursmentsHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.loandisbursments);
+  // }
+
+  // void AreaLoanHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.arealoan);
+  // }
+
+  // void WrittenOffHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.writtenoff);
+  // }
+
+  // void PrePaidHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.prepaid);
+  // }
+
+  // void PayForEeachOtherHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.payforeachother);
+  // }
+
+  // void CustomersHandleTap() {
+  //   Get.back();
+  //   Get.toNamed(Routes.customers);
+  // }
+
+  // void moneyCount() {
+  //   Get.back();
+  //   Get.toNamed(Routes.dino);
+  // }
+
+  void LoansHandleTap() {
     Get.back();
-    Get.toNamed(Routes.loancalculator);
+    Get.toNamed(Routes.loans);
   }
 
-  void LoanDisbursmentsHandleTap() {
+  void QuickRepayHandleTap() {
     Get.back();
-    Get.toNamed(Routes.loandisbursments);
+    Get.toNamed(Routes.quickRepay);
   }
 
-  void AreaLoanHandleTap() {
+  void ReportsHandleTap() {
     Get.back();
-    Get.toNamed(Routes.arealoan);
+    Get.toNamed(Routes.reports);
   }
 
-  void WrittenOffHandleTap() {
+  void LeavesHandleTap() {
     Get.back();
-    Get.toNamed(Routes.writtenoff);
-  }
-
-  void PrePaidHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.prepaid);
-  }
-
-  void PayForEeachOtherHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.payforeachother);
-  }
-
-  void CustomersHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.customers);
-  }
-
-  void moneyCount() {
-    Get.back();
-    Get.toNamed(Routes.dino);
+    Get.toNamed(Routes.leaves);
   }
 
   @override
@@ -169,27 +188,42 @@ class DashboardWidget extends StatelessWidget {
                             // if (catName[index] == LocaleKeys.writtenoff.tr) {
                             //   WrittenOffHandleTap();
                             // } else
-                            if (catName[index] ==
-                                LocaleKeys.payforearchother.tr) {
-                              PayForEeachOtherHandleTap();
-                            } else if (catName[index] ==
-                                LocaleKeys.repaymentLoan.tr) {
-                              RepaymentHandleTap();
-                            } else if (catName[index] ==
-                                LocaleKeys.datasync.tr) {
+                            // if (catName[index] ==
+                            //     LocaleKeys.payforearchother.tr) {
+                            //   PayForEeachOtherHandleTap();
+                            // } else if (catName[index] ==
+                            //     LocaleKeys.repaymentLoan.tr) {
+                            //   RepaymentHandleTap();
+                            // }
+                            if (catName[index] == LocaleKeys.datasync.tr) {
                               SyncDataHandleTap();
                             } else if (catName[index] ==
                                 LocaleKeys.datatransfer.tr) {
                               TransferDataHandleTap();
-                            } else if (catName[index] ==
-                                LocaleKeys.prepaid.tr) {
-                              PrePaidHandleTap();
-                              // } else if (catName[index] == 'DENO') {
-                              //   moneyCount();
-                            } else if (catName[index] ==
-                                LocaleKeys.writtenoff.tr) {
-                              WrittenOffHandleTap();
-                            } else {
+                            }
+                            // else if (catName[index] ==
+                            //     LocaleKeys.prepaid.tr) {
+                            //   PrePaidHandleTap();
+                            //   // } else if (catName[index] == 'DENO') {
+                            //   //   moneyCount();
+                            // } else if (catName[index] ==
+                            //     LocaleKeys.writtenoff.tr) {
+                            //   WrittenOffHandleTap();
+                            // }
+                            else if (catName[index] == LocaleKeys.loans.tr) {
+                              LoansHandleTap();
+                            }
+                            // else if (catName[index] ==
+                            //     LocaleKeys.quickRepay.tr) {
+                            //   QuickRepayHandleTap();
+                            // } else if (catName[index] ==
+                            //     LocaleKeys.reports.tr) {
+                            //   ReportsHandleTap();
+                            // } else if (catName[index] ==
+                            //     LocaleKeys.leaves.tr) {
+                            //   LeavesHandleTap();
+                            // }
+                            else {
                               DialogManager.showDialog(
                                 title: LocaleKeys.commingSoon.tr,
                                 subTitle: LocaleKeys.futureUpdate.tr,
@@ -204,7 +238,7 @@ class DashboardWidget extends StatelessWidget {
                                   width: 50,
                                   decoration: BoxDecoration(
                                     color:
-                                        [2, 5, 6, 7, 8, 9].contains(index)
+                                        [0, 3, 4].contains(index)
                                             ? catColors[index]
                                             : Color.fromARGB(255, 96, 152, 198),
                                     shape: BoxShape.circle,

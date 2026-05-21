@@ -28,3 +28,6 @@ export 'sync_data/syncdata.dart';
 export 'transfer_data/transferdata.dart';
 export 'payforeachother/payfoeachother.dart';
 export 'dino/dino.dart';
+export 'loans/loans.dart';
+export 'reports/reports.dart';
+export 'leaves/leaves.dart';

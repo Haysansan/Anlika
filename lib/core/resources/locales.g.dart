@@ -289,12 +289,13 @@ class LocaleKeys {
   static const yousucessfulreversedata = 'yousucessfulreversedata';
   static const failed = 'failed';
   static const youfailedtoreversedata = 'youfailedtoreversedata';
-
   static const waitUntilSuccess = 'waitUntilSuccess';
-
   static const commingSoon = 'comingSoon';
-
   static const futureUpdate = 'futureUpdate';
+  static const loans = 'loans';
+  static const quickRepay = 'quickRepay';
+  static const reports = 'reports';
+  static const leaves = 'leaves';
 }
 
 class Locales {
@@ -575,11 +576,13 @@ class Locales {
     'yousucessfulreversedata': 'You successful reverse data',
     'failed': 'Failed',
     'youfailedtoreversedata': 'You failed reverse data',
-
     'waitUntilSuccess': 'Please waiting until success.',
-
     'comingSoon': 'Coming Soon!',
     'futureUpdate': 'This feature will be available in a future update.',
+    'loans': 'Loans',
+    'quickRepay': 'Quick Repay',
+    'reports': 'Reports',
+    'leaves': 'Leaves',
   };
   static const KM_KH = {
     'unableToConnectToTheInternet': 'មិនអាចភ្ជាប់អ៊ីនធឺណិតបានទេ',
@@ -858,5 +861,9 @@ class Locales {
     'comingSoon': 'នៅពេលខាងមុខ!',
     'futureUpdate': 'មុខងារនឹងអាចប្រើប្រាស់បាននៅកំណែថ្មីខាងមុខ។.',
     'confirm2': 'សូមចុច បាទ/ចាស ដើម្បីបញ្ជាក់ថាអ្នកពិតជាចង់លុបគណនី។',
+    'loans': 'កម្ចី',
+    'quickRepay': 'បង់សង',
+    'reports': 'របាយការណ៍',
+    'leaves': 'សុំច្បាប់',
   };
 }
