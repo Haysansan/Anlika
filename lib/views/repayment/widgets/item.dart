@@ -110,7 +110,7 @@ class RepaymentItemWidget extends StatelessWidget {
                   children: <Widget>[
                     TextButton(
                       child: Text(
-                        'ប្រាក់ត្រូវបង់៖ ${formatCurrency(delivery.total_repayment.toString())}',
+                        'ប្រាក់ត្រូវបង់៖ ${formatCurrency(delivery.total_amount.toString())}',
                         style: AppTextStyle.normalSecondaryBold,
                       ),
                       onPressed: () {

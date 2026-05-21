@@ -48,7 +48,7 @@ class DashboardWidget extends StatelessWidget {
     // Image.asset('assets/images/icon/prepaid.png', width: 30, height: 30),
     // Image.asset('assets/images/icon/paidofother.png', width: 30, height: 30),
     Image.asset('assets/images/icon/loans.png', width: 38, height: 38),
-    Image.asset('assets/images/icon/quickrepay.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/quickrepay.png', width: 33, height: 33),
     Image.asset('assets/images/icon/reports.png', width: 38, height: 38),
     Image.asset('assets/images/icon/transfer.png', width: 38, height: 38),
     Image.asset('assets/images/icon/sync.png', width: 38, height: 38),

@@ -70,35 +70,35 @@ class DashboardView extends GetView<DashboardController> {
 
           // ── Content ──
           SafeArea(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                // Ensures content is at least full screen height
-                // so background image never shows as white gap
-                constraints: BoxConstraints(minHeight: screenHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: kToolbarHeight - 20),
+            // child: SingleChildScrollView(
+            child: ConstrainedBox(
+              // Ensures content is at least full screen height
+              // so background image never shows as white gap
+              constraints: BoxConstraints(minHeight: screenHeight),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
 
-                    // ── Summary card ──
-                    Obx(
-                      () => DashboardSummaryCard(
-                        amountToCollect: controller.totalToCollect.value,
-                        amountCollected: controller.totalCollected.value,
-                        amountToCollectKhr: controller.totalToCollectKhr.value,
-                        amountCollectedKhr: controller.totalCollectedKhr.value,
-                        userName: controller.userName.value,
-                      ),
+                  // ── Summary card ──
+                  Obx(
+                    () => DashboardSummaryCard(
+                      amountToCollect: controller.totalToCollect.value,
+                      amountCollected: controller.totalCollected.value,
+                      amountToCollectKhr: controller.totalToCollectKhr.value,
+                      amountCollectedKhr: controller.totalCollectedKhr.value,
+                      userName: controller.userName.value,
                     ),
+                  ),
 
-                    16.height,
+                  20.height,
 
-                    // ── Grid menu ──
-                    DashboardWidget(),
-                  ],
-                ),
+                  // ── Grid menu ──
+                  DashboardWidget(),
+                ],
               ),
             ),
+            // ),
           ),
         ],
       ),

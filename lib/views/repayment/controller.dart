@@ -115,7 +115,7 @@ class RepaymentController extends GetxController {
     // Use fold to accumulate the sum of all total_repayment values
     sum = rows.fold(
       0.0,
-      (prev, element) => prev + double.parse(element.total_repayment),
+      (prev, element) => prev + double.parse(element.total_amount),
     );
     totalAmount.text = formatCurrency(sum.toString());
   }

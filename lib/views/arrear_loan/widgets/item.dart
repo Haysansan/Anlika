@@ -13,7 +13,10 @@ class ArrearItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => BottomSheetManager.custom(content: ArrearSheet(delivery: delivery)),
+      onTap:
+          () => BottomSheetManager.custom(
+            content: ArrearSheet(delivery: delivery),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,15 +46,11 @@ class ArrearItemWidget extends StatelessWidget {
             padding: 12.padAll,
             decoration: BoxDecoration(
               borderRadius: UIConstants.radius.radiusAll,
-              border: Border.all(
-                width: 1,
-                color: _customColor('បញ្ចប់'),
-              ),
+              border: Border.all(width: 1, color: _customColor('បញ្ចប់')),
             ),
             child: Row(
               children: [
                 // Logo
-
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: AppColor.white,
@@ -75,7 +74,9 @@ class ArrearItemWidget extends StatelessWidget {
                           6.width,
                           Expanded(
                             child: Text(
-                              delivery.loan_id == 1 ? '(${delivery.loan_id})' : '',
+                              delivery.loan_id == 1
+                                  ? '(${delivery.loan_id})'
+                                  : '',
                               maxLines: 4,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
@@ -96,7 +97,8 @@ class ArrearItemWidget extends StatelessWidget {
                       // Zone
                       SizedBox(
                         width: Get.width * 0.4,
-                        child: Text('CID ${delivery.client_code}',
+                        child: Text(
+                          'CID ${delivery.client_code}',
                           maxLines: 2,
                           style: AppTextStyle.smallGreyRegular,
                         ),
@@ -107,7 +109,7 @@ class ArrearItemWidget extends StatelessWidget {
 
                 // Total amount
                 Text(
-                  '${formatCurrency(delivery.total_repayment)}',
+                  '${formatCurrency(delivery.total_amount)}',
                   style: AppTextStyle.midRedBold,
                 ),
               ],
@@ -121,7 +123,8 @@ class ArrearItemWidget extends StatelessWidget {
   String formatCurrency(String amount) {
     // ignore: unnecessary_null_comparison
     return amount != null
-        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'
+            .replaceAll('.00', '')
         : 'N/A';
   }
 

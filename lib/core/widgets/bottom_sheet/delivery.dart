@@ -173,7 +173,7 @@ class DeliverySheet extends StatelessWidget {
             // Location
             _item(
               title: LocaleKeys.totalRepayment.tr,
-              value: formatCurrency(delivery.total_repayment),
+              value: formatCurrency(delivery.total_amount),
             ),
             10.height,
             const DarkGreyDivider(),

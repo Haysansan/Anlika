@@ -20,7 +20,7 @@ class RepaymentModel {
   final String penalty;
   final String villages_name;
   final String last_payment_date;
-  final String total_repayment;
+  final String total_amount;
   final String arrea;
   final String total_toclose;
   final String status_pay;
@@ -48,7 +48,7 @@ class RepaymentModel {
     required this.penalty,
     required this.villages_name,
     required this.last_payment_date,
-    required this.total_repayment,
+    required this.total_amount,
     required this.arrea,
     required this.total_toclose,
     required this.status_pay,
@@ -77,7 +77,7 @@ class RepaymentModel {
       penalty: json["penalty"] ?? 'N/A',
       villages_name: json["villages_name"] ?? 'N/A',
       last_payment_date: json["last_payment_date"] ?? 'N/A',
-      total_repayment: json["total_repayment"] ?? 'N/A',
+      total_amount: json["total_repayment"] ?? 'N/A',
       arrea: json["arrea"]?.toString() ?? 'N/A',
       total_toclose: json["total_toclose"] ?? 'N/A',
       status_pay: json["status_pay"] ?? 'N/A',
@@ -117,7 +117,7 @@ class RepaymentModel {
     data['penalty'] = penalty;
     data['villages_name'] = villages_name;
     data['last_payment_date'] = last_payment_date;
-    data['total_repayment'] = total_repayment;
+    data['total_repayment'] = total_amount;
     data['arrea'] = arrea;
     data['total_toclose'] = total_toclose;
     data['status_pay'] = status_pay;

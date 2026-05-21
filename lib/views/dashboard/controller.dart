@@ -56,7 +56,7 @@ class DashboardController extends GetxController {
           .queryAllRowsRepayments(1);
       final double toCollectSum = toCollectRows.fold(
         0.0,
-        (prev, item) => prev + (double.tryParse(item.total_repayment) ?? 0.0),
+        (prev, item) => prev + (double.tryParse(item.total_amount) ?? 0.0),
       );
 
       // Amount Collected — everything saved in Collected table

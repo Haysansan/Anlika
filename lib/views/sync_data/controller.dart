@@ -298,7 +298,7 @@ class SyncDataController extends GetxController {
           'penalty': item.penalty,
           'villages_name': item.villages_name,
           'last_payment_date': item.last_payment_date,
-          'total_repayment': item.total_repayment,
+          'total_repayment': item.total_amount,
           'arrea': item.arrea,
           'total_toclose': item.total_toclose,
           'status_pay': item.status_pay,
