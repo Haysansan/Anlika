@@ -14,6 +14,9 @@ class StartView extends GetView<StartController> {
         controller.handleClickBack();
       },
       child: Scaffold(
+        extendBodyBehindAppBar:
+            true, // background image will be behind the appbar
+        backgroundColor: Colors.transparent,
         appBar: appBarWidget(),
         drawer: const DrawerWidget(),
         body: Center(child: Obx(() => controller.selectedScreen.value)),
@@ -28,9 +31,7 @@ class StartView extends GetView<StartController> {
           child: Obx(
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ...controller.getItems().map((e) => e),
-              ],
+              children: [...controller.getItems().map((e) => e)],
             ),
           ),
         ),

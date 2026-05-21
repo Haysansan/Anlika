@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:apploan/views/dashboard/dashboard.dart';
 
 class TransferDataController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -239,6 +240,10 @@ class TransferDataController extends GetxController {
           subTitle: LocaleKeys.youHavesuccessfullysyncData.tr,
           onPressed: () => Get.back(),
         );
+
+        if (Get.isRegistered<DashboardController>()) {
+          Get.find<DashboardController>().fetchSummaryAmounts();
+        }
       } else if (i > 0) {
         DialogManager.showDialog(
           title: LocaleKeys.error.tr,

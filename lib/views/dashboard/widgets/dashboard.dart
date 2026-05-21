@@ -23,12 +23,12 @@ class DashboardWidget extends StatelessWidget {
     LocaleKeys.leaves.tr,
   ];
   List<Color> catColors = [
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
-    Color(0xFF5DAFF1),
+    Color(0xFFF21A3E),
+    Color(0xFFF21A3E),
+    Color(0xFFF21A3E),
+    Color(0xFFF21A3E),
+    Color(0xFFF21A3E),
+    Color(0xFFF21A3E),
   ];
   List imageList = [
     {"id": 1, "image_path": "assets/images/banner1.png"},
@@ -47,12 +47,12 @@ class DashboardWidget extends StatelessWidget {
     // Image.asset('assets/images/icon/writtenoff.png', width: 30, height: 30),
     // Image.asset('assets/images/icon/prepaid.png', width: 30, height: 30),
     // Image.asset('assets/images/icon/paidofother.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/loans.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/quickrepay.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/arrear.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/transfer.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/sync.png', width: 30, height: 30),
-    Image.asset('assets/images/icon/writtenoff.png', width: 30, height: 30),
+    Image.asset('assets/images/icon/loans.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/quickrepay.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/reports.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/transfer.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/sync.png', width: 38, height: 38),
+    Image.asset('assets/images/icon/writtenoff.png', width: 48, height: 48),
   ];
   List getReport = ["អតិថិជនបានបង់", "អតិថិជនមិនបានបង់", "អតិថិជនត្រូវប្រមូល"];
 
@@ -147,11 +147,13 @@ class DashboardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ), // ← same as summary card
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/background-2.jpg"),
-          fit: BoxFit.fill,
-        ),
+        color: Colors.white.withOpacity(0.65),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.6), width: 1.5),
       ),
       child: Stack(
         children: [
@@ -234,13 +236,13 @@ class DashboardWidget extends StatelessWidget {
                             child: Column(
                               children: [
                                 Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: 65,
+                                  width: 65,
                                   decoration: BoxDecoration(
                                     color:
                                         [0, 3, 4].contains(index)
                                             ? catColors[index]
-                                            : Color.fromARGB(255, 96, 152, 198),
+                                            : Color.fromARGB(255, 184, 49, 49),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(child: catIcons[index]),
