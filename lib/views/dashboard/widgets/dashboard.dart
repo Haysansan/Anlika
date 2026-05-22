@@ -74,16 +74,6 @@ class DashboardWidget extends StatelessWidget {
   //   Get.toNamed(Routes.repayment);
   // }
 
-  void SyncDataHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.syncData);
-  }
-
-  void TransferDataHandleTap() {
-    Get.back();
-    Get.toNamed(Routes.transferData);
-  }
-
   // void LoanCalculatorHandleTap() {
   //   Get.back();
   //   Get.toNamed(Routes.loancalculator);
@@ -137,6 +127,16 @@ class DashboardWidget extends StatelessWidget {
   void ReportsHandleTap() {
     Get.back();
     Get.toNamed(Routes.reports);
+  }
+
+  void TransferDataHandleTap() {
+    Get.back();
+    Get.toNamed(Routes.transferData);
+  }
+
+  void SyncDataHandleTap() {
+    Get.back();
+    Get.toNamed(Routes.syncData);
   }
 
   void LeavesHandleTap() {
@@ -197,12 +197,6 @@ class DashboardWidget extends StatelessWidget {
                             //     LocaleKeys.repaymentLoan.tr) {
                             //   RepaymentHandleTap();
                             // }
-                            if (catName[index] == LocaleKeys.datasync.tr) {
-                              SyncDataHandleTap();
-                            } else if (catName[index] ==
-                                LocaleKeys.datatransfer.tr) {
-                              TransferDataHandleTap();
-                            }
                             // else if (catName[index] ==
                             //     LocaleKeys.prepaid.tr) {
                             //   PrePaidHandleTap();
@@ -212,7 +206,7 @@ class DashboardWidget extends StatelessWidget {
                             //     LocaleKeys.writtenoff.tr) {
                             //   WrittenOffHandleTap();
                             // }
-                            else if (catName[index] == LocaleKeys.loans.tr) {
+                            if (catName[index] == LocaleKeys.loans.tr) {
                               LoansHandleTap();
                             }
                             // else if (catName[index] ==
@@ -221,7 +215,15 @@ class DashboardWidget extends StatelessWidget {
                             // } else if (catName[index] ==
                             //     LocaleKeys.reports.tr) {
                             //   ReportsHandleTap();
-                            // } else if (catName[index] ==
+                            // }
+                            else if (catName[index] ==
+                                LocaleKeys.datatransfer.tr) {
+                              TransferDataHandleTap();
+                            } else if (catName[index] ==
+                                LocaleKeys.datasync.tr) {
+                              SyncDataHandleTap();
+                            }
+                            //else if (catName[index] ==
                             //     LocaleKeys.leaves.tr) {
                             //   LeavesHandleTap();
                             // }

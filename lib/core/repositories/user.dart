@@ -4,6 +4,8 @@ import 'package:apploan/core/core.dart';
 import 'package:apploan/flavor/flavor.dart';
 import 'package:apploan/models/models.dart';
 import 'package:apploan/routes.dart';
+import 'package:intl/intl.dart';
+import 'package:apploan/core/offline/database_helper.dart';
 
 class UserRepository {
   UserRepository._() {
@@ -24,7 +26,15 @@ class UserRepository {
   ProfileModel get profile => _profile;
 
   Future<void> logout() async {
-    SharedPreferencesManager.remove(Credential.token.name);
+    await SharedPreferencesManager.remove(Credential.token.name);
+    await SharedPreferencesManager.remove(Credential.user_id.name);
+    await SharedPreferencesManager.remove(Credential.branch_id.name);
+
+    // Clear all local data so next user starts fresh
+    await DatabaseHelper.instance.truncateTable(
+      DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    );
+
     AppConfig.shared.isDeliveryTapOpened = false;
     Get.offAllNamed(Routes.login);
   }

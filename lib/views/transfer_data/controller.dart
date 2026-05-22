@@ -184,7 +184,7 @@ class TransferDataController extends GetxController {
         try {
           final Map<String, dynamic> postData = {
             'loan_id': item.loan_id,
-            'amount': item.total_repayment,
+            'total_amount': item.total_repayment,
             'amount_penalty': item.amount_penalty,
             'receipt': '',
             'date': item.submitted_on,

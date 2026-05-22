@@ -13,6 +13,7 @@ class DashboardController extends GetxController {
   final Rxn<DashboardModel> dashboardModel = Rxn<DashboardModel>();
   final RxBool isLoading = false.obs;
   final RxString userName = ''.obs;
+  final RxBool hasSyncedData = false.obs;
 
   final ReasonController reasonCtl = Get.find<ReasonController>();
   final StartController startCtl = Get.find<StartController>();
@@ -37,7 +38,7 @@ class DashboardController extends GetxController {
     super.onClose();
   }
 
-  // ── Load user name from SharedPreferences ────────────────────
+  // ── Load user name from SharedPreferences ───
   Future<void> _loadUserName() async {
     try {
       final raw = await SharedPreferencesManager.get('user_name');
@@ -48,18 +49,48 @@ class DashboardController extends GetxController {
     }
   }
 
-  // ── Fetch totals from local SQLite ───────────────────────────
+  // ── Fetch totals from local SQLite ───
+  // Future<void> fetchSummaryAmounts() async {
+  //   try {
+  //     // Amount to Collect — unpaid rows not yet in Collected table
+  //     final List<RepaymentModel> toCollectRows = await DatabaseHelper.instance
+  //         .queryAllRowsRepayments(1);
+  //     final double toCollectSum = toCollectRows.fold(
+  //       0.0,
+  //       (prev, item) => prev + (double.tryParse(item.total_amount) ?? 0.0),
+  //     );
+
+  //     // Amount Collected — everything saved in Collected table
+  //     final List<PaymentModel> collectedRows =
+  //         await DatabaseHelper.instance.queryAllRowsCollected();
+  //     final double collectedSum = collectedRows.fold(
+  //       0.0,
+  //       (prev, item) => prev + (double.tryParse(item.total_repayment) ?? 0.0),
+  //     );
+
+  //     totalToCollect.value = _formatUsd(toCollectSum);
+  //     totalCollected.value = _formatUsd(collectedSum);
+  //     totalToCollectKhr.value = _formatKhr(toCollectSum);
+  //     totalCollectedKhr.value = _formatKhr(collectedSum);
+  //   } catch (_) {
+  //     // card shows $0.00 instead of crashing
+  //   }
+  // }
   Future<void> fetchSummaryAmounts() async {
     try {
-      // Amount to Collect — unpaid rows not yet in Collected table
       final List<RepaymentModel> toCollectRows = await DatabaseHelper.instance
           .queryAllRowsRepayments(1);
+
+      // If no rows, user hasn't synced yet
+      hasSyncedData.value = toCollectRows.isNotEmpty;
+
+      if (!hasSyncedData.value) return; // show $0.00 defaults
+
       final double toCollectSum = toCollectRows.fold(
         0.0,
         (prev, item) => prev + (double.tryParse(item.total_amount) ?? 0.0),
       );
 
-      // Amount Collected — everything saved in Collected table
       final List<PaymentModel> collectedRows =
           await DatabaseHelper.instance.queryAllRowsCollected();
       final double collectedSum = collectedRows.fold(
@@ -71,12 +102,10 @@ class DashboardController extends GetxController {
       totalCollected.value = _formatUsd(collectedSum);
       totalToCollectKhr.value = _formatKhr(toCollectSum);
       totalCollectedKhr.value = _formatKhr(collectedSum);
-    } catch (_) {
-      // Fail silently — card shows $0.00 instead of crashing
-    }
+    } catch (_) {}
   }
 
-  // ── Format helpers ───────────────────────────────────────────
+  // ── Format helpers ───
   String _formatUsd(double amount) {
     return '\$${NumberFormat('#,##0.00').format(amount)}';
   }
@@ -86,7 +115,7 @@ class DashboardController extends GetxController {
     return '${NumberFormat('#,###').format(khr)}រ';
   }
 
-  // ── Date picker ──────────────────────────────────────────────
+  // ── Date picker ───
   DatePicker getDatePicker() {
     return DatePicker(
       controller: dateCtl,
@@ -103,32 +132,32 @@ class DashboardController extends GetxController {
     );
   }
 
-  void gridHandleTap(DeliveryStatus status) {
-    if (!AppConfig.shared.isDeliveryTapOpened) {
-      AppConfig.shared.isDeliveryTapOpened = true;
-    }
-    int deliveryStatus = 0;
-    switch (status) {
-      case DeliveryStatus.success:
-        deliveryStatus = 3;
-        break;
-      case DeliveryStatus.inProgress:
-        deliveryStatus = 1;
-        break;
-      case DeliveryStatus.problem:
-        deliveryStatus = 5;
-        break;
-      default:
-    }
-    startCtl.changeMenu(
-      3,
-      isFromGrid: true,
-      dateFilter: dateCtl.text,
-      deliveryStatus: deliveryStatus,
-    );
-  }
+  // void gridHandleTap(DeliveryStatus status) {
+  //   if (!AppConfig.shared.isDeliveryTapOpened) {
+  //     AppConfig.shared.isDeliveryTapOpened = true;
+  //   }
+  //   int deliveryStatus = 0;
+  //   switch (status) {
+  //     case DeliveryStatus.success:
+  //       deliveryStatus = 3;
+  //       break;
+  //     case DeliveryStatus.inProgress:
+  //       deliveryStatus = 1;
+  //       break;
+  //     case DeliveryStatus.problem:
+  //       deliveryStatus = 5;
+  //       break;
+  //     default:
+  //   }
+  //   startCtl.changeMenu(
+  //     3,
+  //     isFromGrid: true,
+  //     dateFilter: dateCtl.text,
+  //     deliveryStatus: deliveryStatus,
+  //   );
+  // }
 
-  void clearDateFilter() {
-    dateCtl.text = '';
-  }
+  // void clearDateFilter() {
+  //   dateCtl.text = '';
+  // }
 }

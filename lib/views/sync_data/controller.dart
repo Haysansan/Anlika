@@ -1,6 +1,7 @@
 import 'package:apploan/core/core.dart';
 import 'package:apploan/core/offline/database_helper.dart';
 import 'package:apploan/models/models.dart';
+import 'package:apploan/views/dashboard/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -480,6 +481,9 @@ class SyncDataController extends GetxController {
       // ← reload repayment screen data after sync
       if (Get.isRegistered<RepaymentController>()) {
         await Get.find<RepaymentController>().onRefresh();
+      }
+      if (Get.isRegistered<DashboardController>()) {
+        await Get.find<DashboardController>().fetchSummaryAmounts();
       }
 
       // Show success dialog
