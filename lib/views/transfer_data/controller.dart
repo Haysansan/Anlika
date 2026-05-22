@@ -54,29 +54,20 @@ class TransferDataController extends GetxController {
     return user_id;
   }
 
-  int customerCount = 0;
+  final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
-    isLoadings.value = true;
-    int count =
+    customerCount.value =
         await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
-    customerCount = count;
-    totalClient.text = customerCount.toString();
-    isLoadings.value = false;
   }
 
-  double sum = 0;
+  final RxDouble sum = 0.0.obs;
   Future<void> _calculateSum() async {
-    isLoading1.value = true;
-    // Fetch all rows for a specific condition, here assuming `1` is a parameter.
     List<PaymentModel> rows =
         await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
-    // Use fold to accumulate the sum of all total_repayment values
-    sum = rows.fold(
+    sum.value = rows.fold(
       0.0,
-      (prev, element) => prev + double.parse(element.total_repayment),
+      (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
     );
-    totalAmount.text = formatCurrency(sum.toString());
-    isLoading1.value = false;
   }
 
   // String formatCurrency(String amount) {

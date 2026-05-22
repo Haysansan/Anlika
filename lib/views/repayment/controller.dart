@@ -87,6 +87,7 @@ class RepaymentController extends GetxController {
       // pagination.checkLoadMore((data['data'] as List).length);
       _calculateSum();
       _countCustomers();
+      // _calculateCollected();
       if (isRefresh) {
         repaymentModel.value = await DatabaseHelper.instance
             .queryAllRowsRepayments(1);
@@ -105,27 +106,35 @@ class RepaymentController extends GetxController {
     }
   }
 
+  // // % Repayment
+  // double collectedSum = 0;
+
+  // Future<void> _calculateCollected() async {
+  //   List<PaymentModel> rows =
+  //       await DatabaseHelper.instance.queryAllRowsCollected();
+  //   collectedSum = rows.fold(
+  //     0.0,
+  //     (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
+  //   );
+  // }
+
   ///Repayment
-  double sum = 0;
+  final RxDouble sum = 0.0.obs;
 
   Future<void> _calculateSum() async {
-    // Fetch all rows for a specific condition, here assuming `1` is a parameter.
-    List<RepaymentModel> rows = await DatabaseHelper.instance
-        .queryAllRowsRepayments(1);
-    // Use fold to accumulate the sum of all total_repayment values
-    sum = rows.fold(
+    List<PaymentModel> rows =
+        await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
+    sum.value = rows.fold(
       0.0,
-      (prev, element) => prev + double.parse(element.total_amount),
+      (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
     );
-    totalAmount.text = formatCurrency(sum.toString());
   }
 
   ///Repayment
-  int customerCount = 0;
+  final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
-    int count = await DatabaseHelper.instance.countCustomersRepayment();
-    customerCount = count;
-    totalClient.text = customerCount.toString();
+    customerCount.value =
+        await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
   }
 
   Future<void> fetchRepaymentSearch({

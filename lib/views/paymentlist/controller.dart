@@ -87,24 +87,20 @@ class PaymentListController extends GetxController {
   //   }
   // }
 
-  int customerCount = 0;
+  final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
-    int count = await DatabaseHelper.instance.countCustomersCollection();
-    customerCount = count;
-    totalClient.text = customerCount.toString();
+    customerCount.value =
+        await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
   }
 
-  double sum = 0;
+  final RxDouble sum = 0.0.obs;
   Future<void> _calculateSum() async {
-    // Fetch all rows for a specific condition, here assuming `1` is a parameter.
     List<PaymentModel> rows =
-        await DatabaseHelper.instance.queryAllRowsCollected();
-    // Use fold to accumulate the sum of all total_repayment values
-    sum = rows.fold(
+        await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
+    sum.value = rows.fold(
       0.0,
-      (prev, element) => prev + double.parse(element.total_repayment),
+      (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
     );
-    totalAmount.text = formatCurrency(sum.toString());
   }
 
   Future<void> fetchpaymentList() async {

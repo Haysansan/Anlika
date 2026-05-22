@@ -440,13 +440,10 @@ class SyncDataController extends GetxController {
     }
   }
 
-  int customerCount = 0;
+  final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
-    isLoadings.value = true;
-    int count =
+    customerCount.value =
         await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
-    customerCount = count;
-    isLoadings.value = false;
   }
 
   // Method to simulate data sync process

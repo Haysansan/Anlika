@@ -5,5 +5,7 @@ class LoansDashboardBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<LoansDashboardController>(() => LoansDashboardController());
+    Get.lazyPut<DashboardController>(() => DashboardController());
+    Get.lazyPut<DisburmentListController>(() => DisburmentListController());
   }
 }

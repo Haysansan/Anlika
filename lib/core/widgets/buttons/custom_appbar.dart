@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:apploan/core/core.dart';
+import 'package:apploan/routes.dart';
+import 'package:get/get.dart';
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final VoidCallback? onBack;
+
+  const CustomAppBar({Key? key, required this.title, this.onBack})
+    : super(key: key);
+
+  @override
+  // Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(56);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(color: AppColor.hardOrange),
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/appbarbackground.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: onBack ?? () => Navigator.pop(context),
+          ),
+          title: Text(title, style: AppTextStyle.largeWhiteBold),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications, color: Colors.white),
+              onPressed: () => Get.toNamed(Routes.notification),
+            ),
+            8.width,
+          ],
+        ),
+      ],
+    );
+  }
+}

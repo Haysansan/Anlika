@@ -1,142 +1,151 @@
-import 'dart:ffi';
+// import 'package:apploan/views/loans/widgets/loans.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:apploan/core/core.dart';
+// import 'package:apploan/views/views.dart';
+// import 'package:apploan/models/models.dart';
+// import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
+// class LoansDashboardView extends GetView<LoansDashboardController> {
+//   const LoansDashboardView({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: CustomAppBar(
+//         title: LocaleKeys.loans.tr,
+//         onBack: () => Navigator.pop(context, false),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Column(
+//           children: [
+//             const SizedBox(height: 20),
+//             Obx(
+//               () => CustomSummaryCard(
+//                 clientCount: controller.customerCount.value,
+//                 totalRepaymentUsd: controller.sum.value,
+//                 collectedUsd: controller.collectedSum.value,
+//                 exchangeRate: 4100,
+//               ),
+//             ),
+//             20.height,
+
+//             // ── Grid menu ──
+//             LoansWidget(),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+import 'package:apploan/views/loans/widgets/loans.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
 import 'package:apploan/views/views.dart';
 import 'package:apploan/models/models.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // ← add this import
 
 class LoansDashboardView extends GetView<LoansDashboardController> {
   const LoansDashboardView({Key? key}) : super(key: key);
-  void onSearch() async {
-    controller.sendDataToServer();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (controller.isLoading.value) {
-          bool shouldClose = await showDialog(
-            context: context,
-            builder:
-                (context) => AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text(
-                    "Data transfer is in progress. Are you sure you want to exit?",
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text("No"),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text("Yes"),
-                    ),
-                  ],
-                ),
-          );
-          return shouldClose;
-        } else {
-          return true;
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              controller.isLoading.value ? null : Navigator.pop(context, false);
-            },
-          ),
-          title: Text(LocaleKeys.loans.tr),
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0.0,
-          backgroundColor: AppColor.primary,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Obx(() {
-                if (controller.isLoadings.value ||
-                    controller.isLoading1.value) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          top: 5.0,
-                          right: 10.0,
-                          bottom: 5.0,
-                        ),
-                        child: TotalPackageWidget(
-                          icon: Icons.people_alt,
-                          packages:
-                              '${controller.totalClient.text}'
-                              ' ${LocaleKeys.clients.tr}',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          top: 0.0,
-                          right: 10.0,
-                          bottom: 0.0,
-                        ),
-                        child: TotalIncomeWidget(
-                          codKhr: controller.totalAmount.text,
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              }),
-              5.height,
-              Padding(
-                padding: UIConstants.spacing.padHorizontal,
-                child: Form(
-                  key: controller.formKey,
-                  child: Text(
-                    LocaleKeys.waitUntilSuccess.tr,
-                    style: AppTextStyle.normalRedBold,
-                  ),
-                ),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: LocaleKeys.loans.tr,
+        onBack: () => Navigator.pop(context, false),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Obx(
+              () => CustomSummaryCard(
+                clientCount: controller.customerCount.value,
+                totalRepaymentUsd: controller.sum.value,
+                collectedUsd: controller.collectedSum.value,
+                exchangeRate: 4100,
               ),
-              5.height,
-              Obx(() {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LinearProgressIndicator(
-                        value: controller.progress.value,
-                        backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        '${(controller.progress.value * 100).toStringAsFixed(0)}% Synced',
-                      ),
-                    ],
-                  ),
-                );
-              }),
-              Obx(() {
-                return PrimaryButton(
-                  text: LocaleKeys.transfer.tr,
-                  width: 100,
-                  onPressed: controller.isLoading.value ? null : onSearch,
-                );
-              }),
+            ),
+            20.height,
+            LoansWidget(),
+          ],
+        ),
+      ),
+      // ── add from here ──
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 15),
+          ],
+        ),
+        child: StyleProvider(
+          style: _LoansNavStyle(fontSize: 10.0),
+          child: ConvexAppBar(
+            key: const ValueKey<String>('loans-nav-3'),
+            backgroundColor: AppColor.white,
+            color: AppColor.grey,
+            activeColor: AppColor.primary,
+            height: 66,
+            style: TabStyle.reactCircle,
+            initialActiveIndex: 0,
+            onTap: (index) => controller.changeMenu(index),
+            shadowColor: const Color(0xFF9DB2CE),
+            items: [
+              TabItem(icon: Icons.dashboard, title: LocaleKeys.loans.tr),
+              TabItem(
+                icon: Image.asset(
+                  'assets/images/icon/addclient.png',
+                  width: 28,
+                  height: 28,
+                  color: AppColor.grey,
+                ),
+                activeIcon: Image.asset(
+                  'assets/images/icon/addclient.png',
+                  width: 28,
+                  height: 28,
+                  color: AppColor.primary,
+                ),
+                title: LocaleKeys.addCustomer.tr,
+              ),
+              TabItem(
+                icon: Icons.list_alt,
+                title: LocaleKeys.loanDisbursmentsList.tr,
+              ),
             ],
           ),
         ),
       ),
+      // ── add to here ──
+    );
+  }
+}
+
+// ── add this class at the bottom of the file ──
+class _LoansNavStyle extends StyleHook {
+  _LoansNavStyle({required this.fontSize});
+  final double fontSize;
+
+  @override
+  double? get iconSize => 22;
+
+  @override
+  double get activeIconMargin => 8;
+
+  @override
+  double get activeIconSize => 24;
+
+  @override
+  TextStyle textStyle(Color color, String? fontFamily) {
+    return TextStyle(
+      color: color,
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w700,
+      height: 1.0,
     );
   }
 }

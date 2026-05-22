@@ -23,6 +23,7 @@ class AppColor {
   static const blue = Color(0xFF2196F3);
   static const red = Color(0xFFA80000);
   static const yellow = Color(0xFFFFEB3B);
+  static const hardOrange = Color(0xFFF23639);
 }
 
 /// Naming Conventions:
@@ -70,6 +71,11 @@ class AppTextStyle {
     color: AppColor.white,
     fontSize: 20,
     fontWeight: AppStyle._medium,
+  );
+  static const largeWhiteBold = TextStyle(
+    color: AppColor.white,
+    fontSize: 20,
+    fontWeight: AppStyle._bold,
   );
   static const largePrimaryRegular = TextStyle(
     color: AppColor.primaryText,
