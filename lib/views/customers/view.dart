@@ -13,21 +13,15 @@ class CustomersView extends GetView<CustomersController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context, false);
-            }
-        ),
-        title: Text(LocaleKeys.customers.tr, style: AppTextStyle.normalWhiteRegular,),
-        iconTheme: const IconThemeData(color: Colors.black),
-        elevation: 0.0,
-        backgroundColor: AppColor.primary,
+      appBar: CustomAppBar(
+        title: LocaleKeys.customer.tr,
+        onBack: () => Navigator.pop(context, false),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator(color: AppColor.red));
+          return const Center(
+            child: CircularProgressIndicator(color: AppColor.red),
+          );
         }
 
         if (controller.customerModel.isEmpty) {
@@ -62,7 +56,10 @@ class CustomersView extends GetView<CustomersController> {
                             return;
                           }
                           controller.clearFitler();
-                          controller.fetchClientSearch(isRefresh: true, isFilter: true);
+                          controller.fetchClientSearch(
+                            isRefresh: true,
+                            isFilter: true,
+                          );
                         },
                         child: Text(
                           LocaleKeys.clear.tr,
@@ -83,7 +80,10 @@ class CustomersView extends GetView<CustomersController> {
                         return;
                       }
                       controller.setSearchValue();
-                      controller.fetchClientSearch(isRefresh: true, isFilter: true);
+                      controller.fetchClientSearch(
+                        isRefresh: true,
+                        isFilter: true,
+                      );
                     },
                   ),
                   UIConstants.spacing.height,
@@ -142,6 +142,7 @@ class CustomersView extends GetView<CustomersController> {
       ),
     );
   }
+
   void AddCustomerHandleTap() {
     Get.back();
     Get.toNamed(Routes.addCustomer);

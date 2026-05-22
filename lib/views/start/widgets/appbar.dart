@@ -76,7 +76,6 @@ PreferredSizeWidget appBarWidget() {
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            // Fallback color in case image fails to load
             color: isDashboard ? Colors.transparent : AppColor.primary,
             image:
                 isDashboard

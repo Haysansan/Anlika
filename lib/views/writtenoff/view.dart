@@ -12,20 +12,9 @@ class WrittenoffView extends GetView<WrittenoffController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-        ),
-        title: Text(
-          LocaleKeys.writtenoff.tr,
-          style: AppTextStyle.normalWhiteRegular,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black),
-        elevation: 0.0,
-        backgroundColor: AppColor.primary,
+      appBar: CustomAppBar(
+        title: LocaleKeys.writtenoff.tr,
+        onBack: () => Navigator.pop(context, false),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

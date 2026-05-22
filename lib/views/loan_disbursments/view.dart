@@ -10,7 +10,10 @@ class LoanDisbursmentsView extends GetView<LoanDisbursmentsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.loanDisbursments.tr)),
+      appBar: CustomAppBar(
+        title: LocaleKeys.loanDisbursments.tr,
+        onBack: () => Navigator.pop(context, false),
+      ),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(

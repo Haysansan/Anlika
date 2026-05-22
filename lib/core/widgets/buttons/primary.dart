@@ -26,13 +26,10 @@ class PrimaryButton extends StatelessWidget {
       height: UIConstants.btnHeight,
       color: bgColor,
       shape: RoundedRectangleBorder(borderRadius: borderRadius.radiusAll),
-      disabledColor: Colors.blue[200],
+      disabledColor: Colors.red[300],
       onPressed: onPressed,
       elevation: elevation,
-      child: Text(
-        text,
-        style: AppTextStyle.normalWhiteBold,
-      ),
+      child: Text(text, style: AppTextStyle.normalWhiteBold),
     );
   }
 }

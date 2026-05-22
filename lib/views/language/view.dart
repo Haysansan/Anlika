@@ -9,7 +9,10 @@ class LanguageView extends GetView<LanguageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.language.tr)),
+      appBar: CustomAppBar(
+        title: LocaleKeys.language.tr,
+        onBack: () => Navigator.pop(context, false),
+      ),
       body: Padding(
         padding: 16.padAll,
         child: Column(

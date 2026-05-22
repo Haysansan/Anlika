@@ -41,17 +41,9 @@ class SyncDataView extends GetView<SyncDataController> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              controller.isLoading.value ? null : Navigator.pop(context, false);
-            },
-          ),
-          title: Text(LocaleKeys.syncdata.tr),
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0.0,
-          backgroundColor: AppColor.primary,
+        appBar: CustomAppBar(
+          title: LocaleKeys.syncdata.tr,
+          onBack: () => Navigator.pop(context, false),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -82,7 +74,7 @@ class SyncDataView extends GetView<SyncDataController> {
                       LinearProgressIndicator(
                         value: controller.progress.value,
                         backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                       ),
                       SizedBox(height: 20),
                       Text(

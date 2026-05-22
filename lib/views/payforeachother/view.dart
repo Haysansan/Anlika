@@ -11,7 +11,10 @@ class PayfoeachotherView extends GetView<PayfoeachotherController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.payforearchother.tr)),
+      appBar: CustomAppBar(
+        title: LocaleKeys.payforearchother.tr,
+        onBack: () => Navigator.pop(context, false),
+      ),
       body: Padding(
         padding: UIConstants.spacing.padHorizontal,
         child: SingleChildScrollView(

@@ -9,12 +9,13 @@ class NotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.notification.tr)),
+      appBar: CustomAppBar(
+        title: LocaleKeys.notification.tr,
+        onBack: () => Navigator.pop(context, false),
+      ),
       body: ListView.separated(
         separatorBuilder: (context, index) {
-          return const DarkGreyDivider(
-            indent: 25,
-          );
+          return const DarkGreyDivider(indent: 25);
         },
         padding: EdgeInsets.only(
           left: UIConstants.spacing.toDouble(),
