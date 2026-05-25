@@ -31,11 +31,11 @@ class CustomSummaryCard extends StatelessWidget {
 
   String get _percentageLabel => '${(_percentage * 100).toStringAsFixed(0)}%';
 
-  String get _totalUsd =>
-      '\$${NumberFormat('#,##0.00').format(totalRepaymentUsd)}';
+  // String get _totalUsd =>
+  //     '\$${NumberFormat('#,##0.00').format(totalRepaymentUsd)}';
 
-  String get _totalKhr =>
-      '${NumberFormat('#,##0.00').format(totalRepaymentUsd * exchangeRate)}៛';
+  // String get _totalKhr =>
+  //     '${NumberFormat('#,##0.00').format(totalRepaymentUsd * exchangeRate)}៛';
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +186,7 @@ class CustomSummaryCard extends StatelessWidget {
                     'Clients',
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
-                      fontSize: 13,
+                      fontSize: 16,
                     ),
                   ),
                 ],

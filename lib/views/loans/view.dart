@@ -7,6 +7,7 @@ import 'package:apploan/models/models.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // ← add this import
 
 final DashboardController dashCtl = Get.find<DashboardController>();
+final RepaymentController repaymentCtl = Get.find<RepaymentController>();
 
 class LoansDashboardView extends GetView<LoansDashboardController> {
   const LoansDashboardView({Key? key}) : super(key: key);
@@ -24,14 +25,18 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
             const SizedBox(height: 20),
             Obx(
               () => CustomSummaryCard(
-                clientCount: controller.customerCount.value,
-                totalRepaymentUsd: controller.sum.value,
-                collectedUsd: controller.collectedSum.value,
+                clientCount: repaymentCtl.customerCount.value,
+                totalRepaymentUsd: repaymentCtl.sum.value,
+                collectedUsd: 0,
                 exchangeRate: 4100,
                 totalRepaymentFormatted: dashCtl.totalToCollect.value,
                 totalRepaymentKhrFormatted: dashCtl.totalToCollectKhr.value,
                 onClientsTap: () {
-                  // navigate or do something
+                  DialogManager.showDialog(
+                    title: 'Coming Soon',
+                    subTitle:
+                        'Client list will be available in a future update.',
+                  );
                 },
               ),
             ),

@@ -37,6 +37,7 @@ class Routes {
   static const String quickRepay = '/quickRepay';
   static const String reports = '/reports';
   static const String leaves = '/leaves';
+  static const String clientLists = '/client-lists';
 
   static List<GetPage> pages = [
     GetPage(
@@ -165,7 +166,7 @@ class Routes {
     GetPage(
       name: loans,
       page: () => LoansDashboardView(),
-      binding: LoansDashboardBinding(),
+      binding: LoansDashboardBiding(),
     ),
     // GetPage(
     //   name: quickRepay,

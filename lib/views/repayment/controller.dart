@@ -134,7 +134,7 @@ class RepaymentController extends GetxController {
   final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
     customerCount.value =
-        await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
+        await DatabaseHelper.instance.countCustomersRepayment();
   }
 
   Future<void> fetchRepaymentSearch({
