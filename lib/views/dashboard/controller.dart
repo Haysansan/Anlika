@@ -22,8 +22,11 @@ class DashboardController extends GetxController {
 
   final RxString totalToCollect = '\$0.00'.obs;
   final RxString totalCollected = '\$0.00'.obs;
-  final RxString totalToCollectKhr = '0.00រ'.obs;
-  final RxString totalCollectedKhr = '0.00រ'.obs;
+  final RxString totalToCollectKhr = '0៛'.obs;
+  final RxString totalCollectedKhr = '0៛'.obs;
+  final RxDouble collectedSum = 0.0.obs;
+  final RxDouble totalRepaymentSum = 0.0.obs;
+  final RxDouble exchangeRate = 4100.0.obs;
 
   @override
   void onInit() {
@@ -93,15 +96,16 @@ class DashboardController extends GetxController {
 
       final List<PaymentModel> collectedRows =
           await DatabaseHelper.instance.queryAllRowsCollected();
-      final double collectedSum = collectedRows.fold(
+      final double collected = collectedRows.fold(
         0.0,
         (prev, item) => prev + (double.tryParse(item.total_repayment) ?? 0.0),
       );
-
-      totalToCollect.value = _formatUsd(toCollectSum);
-      totalCollected.value = _formatUsd(collectedSum);
+      totalRepaymentSum.value = toCollectSum;
+      collectedSum.value = collected;
+      totalToCollect.value = _formatUsd(toCollectSum / exchangeRate.value);
+      totalCollected.value = _formatUsd(collected / exchangeRate.value);
       totalToCollectKhr.value = _formatKhr(toCollectSum);
-      totalCollectedKhr.value = _formatKhr(collectedSum);
+      totalCollectedKhr.value = _formatKhr(collected);
     } catch (_) {}
   }
 
@@ -111,8 +115,7 @@ class DashboardController extends GetxController {
   }
 
   String _formatKhr(double amount) {
-    final double khr = amount * 4100;
-    return '${NumberFormat('#,###').format(khr)}រ';
+    return '${NumberFormat('#,###').format(amount)}៛';
   }
 
   // ── Date picker ───

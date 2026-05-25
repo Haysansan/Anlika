@@ -26,11 +26,13 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
             Obx(
               () => CustomSummaryCard(
                 clientCount: repaymentCtl.customerCount.value,
-                totalRepaymentUsd: repaymentCtl.sum.value,
-                collectedUsd: 0,
+                totalRepaymentUsd:
+                    controller.collectedSum.value +
+                    controller.totalRepaymentSum.value,
+                collectedUsd: controller.collectedSum.value,
                 exchangeRate: 4100,
-                totalRepaymentFormatted: dashCtl.totalToCollect.value,
-                totalRepaymentKhrFormatted: dashCtl.totalToCollectKhr.value,
+                totalRepaymentFormatted: controller.totalToCollectUsd,
+                totalRepaymentKhrFormatted: controller.totalToCollectKhr,
                 onClientsTap: () {
                   DialogManager.showDialog(
                     title: 'Coming Soon',

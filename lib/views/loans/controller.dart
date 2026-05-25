@@ -76,13 +76,15 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class LoansDashboardController extends GetxController {
-  // ── Summary data ────────────────────────────────────────────────────────────
+  // ── Summary data ──
   final RxBool isLoading = false.obs;
   final RxInt customerCount = 0.obs;
   final RxDouble sum = 0.0.obs;
   final RxDouble collectedSum = 0.0.obs;
+  final RxDouble totalRepaymentSum = 0.0.obs;
+  final RxDouble exchangeRate = 4100.0.obs;
 
-  // ── Tab state (mirrors StartController pattern) ──────────────────────────
+  // ── Tab state ──
   final RxInt selectedIndex = 0.obs;
   late Rx<Widget> selectedScreen = screens[0].obs;
 
@@ -107,7 +109,7 @@ class LoansDashboardController extends GetxController {
     super.onClose();
   }
 
-  // ── Tab navigation ──────────────────────────────────────────────────────────
+  // ── Tab navigation ──
   void handleClickBack() {
     if (selectedIndex.value != 0) {
       changeMenu(0);
@@ -145,13 +147,14 @@ class LoansDashboardController extends GetxController {
     }
   }
 
-  // ── Summary data loaders ────────────────────────────────────────────────────
+  // ── Summary data loaders ───
   Future<void> _loadData() async {
     isLoading.value = true;
     await Future.wait([
       _countCustomers(),
       _calculateSum(),
       _calculateCollected(),
+      _calculateTotalRepayment(),
     ]);
     isLoading.value = false;
   }
@@ -162,11 +165,18 @@ class LoansDashboardController extends GetxController {
   }
 
   Future<void> _calculateSum() async {
-    final List<PaymentModel> rows =
-        await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
+    // final List<PaymentModel> rows =
+    //     await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
+    // sum.value = rows.fold(
+    //   0.0,
+    //   (prev, e) => prev + (double.tryParse(e.total_repayment) ?? 0),
+    // );
+    List<PaymentModel> rows =
+        await DatabaseHelper.instance.queryAllRowsCollected();
+
     sum.value = rows.fold(
       0.0,
-      (prev, e) => prev + (double.tryParse(e.total_repayment) ?? 0),
+      (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
     );
   }
 
@@ -179,10 +189,32 @@ class LoansDashboardController extends GetxController {
     );
   }
 
+  Future<void> _calculateTotalRepayment() async {
+    final List<RepaymentModel> rows = await DatabaseHelper.instance
+        .queryAllRowsRepayments(1);
+    totalRepaymentSum.value = rows.fold(
+      0.0,
+      (prev, e) => prev + (double.tryParse(e.total_amount) ?? 0),
+    );
+    print('DEBUG totalRepaymentSum: ${totalRepaymentSum.value}');
+    print('DEBUG collectedSum (sum): ${sum.value}');
+  }
+
   String formatCurrency(String amount) {
     final parsed = double.tryParse(amount);
     if (parsed == null) return 'N/A';
     return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
         .replaceAll('.00', '');
+  }
+
+  String get totalToCollectUsd {
+    if (exchangeRate.value == 0 || totalRepaymentSum.value == 0)
+      return '\$0.00';
+    final usd = totalRepaymentSum.value / exchangeRate.value;
+    return '\$${NumberFormat('#,##0.00').format(usd)}';
+  }
+
+  String get totalToCollectKhr {
+    return '${NumberFormat('#,##0').format(totalRepaymentSum.value)}៛';
   }
 }
