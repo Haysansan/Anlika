@@ -169,6 +169,7 @@ class _StatBox extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
                   fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],

@@ -248,7 +248,7 @@ class DrawerWidget extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: AppColor.primary,
+                color: AppColor.hardOrange,
                 image: DecorationImage(
                   image: AssetImage('assets/images/drawerbackground.png'),
                   fit: BoxFit.cover,
