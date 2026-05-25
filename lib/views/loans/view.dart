@@ -1,44 +1,3 @@
-// import 'package:apploan/views/loans/widgets/loans.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:apploan/core/core.dart';
-// import 'package:apploan/views/views.dart';
-// import 'package:apploan/models/models.dart';
-// import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-
-// class LoansDashboardView extends GetView<LoansDashboardController> {
-//   const LoansDashboardView({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: CustomAppBar(
-//         title: LocaleKeys.loans.tr,
-//         onBack: () => Navigator.pop(context, false),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             const SizedBox(height: 20),
-//             Obx(
-//               () => CustomSummaryCard(
-//                 clientCount: controller.customerCount.value,
-//                 totalRepaymentUsd: controller.sum.value,
-//                 collectedUsd: controller.collectedSum.value,
-//                 exchangeRate: 4100,
-//               ),
-//             ),
-//             20.height,
-
-//             // ── Grid menu ──
-//             LoansWidget(),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:apploan/views/loans/widgets/loans.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +5,8 @@ import 'package:apploan/core/core.dart';
 import 'package:apploan/views/views.dart';
 import 'package:apploan/models/models.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // ← add this import
+
+final DashboardController dashCtl = Get.find<DashboardController>();
 
 class LoansDashboardView extends GetView<LoansDashboardController> {
   const LoansDashboardView({Key? key}) : super(key: key);
@@ -67,6 +28,11 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
                 totalRepaymentUsd: controller.sum.value,
                 collectedUsd: controller.collectedSum.value,
                 exchangeRate: 4100,
+                totalRepaymentFormatted: dashCtl.totalToCollect.value,
+                totalRepaymentKhrFormatted: dashCtl.totalToCollectKhr.value,
+                onClientsTap: () {
+                  // navigate or do something
+                },
               ),
             ),
             20.height,

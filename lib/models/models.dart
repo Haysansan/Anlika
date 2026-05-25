@@ -28,7 +28,6 @@ export 'commune/commune.dart';
 export 'village/village.dart';
 export 'paidoff/paidoff.dart';
 export 'customer_disburment/customer_disburment.dart';
-export 'loans/loans.dart';
 export 'quick_repay/quick_repay.dart';
 export 'reports/reports.dart';
 export 'leaves/leaves.dart';
