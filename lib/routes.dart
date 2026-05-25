@@ -37,6 +37,7 @@ class Routes {
   static const String quickRepay = '/quickRepay';
   static const String reports = '/reports';
   static const String leaves = '/leaves';
+  static const String loanLists = '/loan_lists';
   static const String clientLists = '/client-lists';
 
   static List<GetPage> pages = [
@@ -168,6 +169,13 @@ class Routes {
       page: () => LoansDashboardView(),
       binding: LoansDashboardBiding(),
     ),
+
+    GetPage(
+      name: loanLists,
+      page: () => LoanListsView(),
+      binding: LoanListsBiding(),
+    ),
+
     // GetPage(
     //   name: quickRepay,
     //   page: () => QuickRepayView(),

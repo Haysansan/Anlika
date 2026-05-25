@@ -293,6 +293,7 @@ class LocaleKeys {
   static const commingSoon = 'comingSoon';
   static const futureUpdate = 'futureUpdate';
   static const loans = 'loans';
+  static const loanLists = 'loanLists';
   static const quickRepay = 'quickRepay';
   static const reports = 'reports';
   static const leaves = 'leaves';
@@ -583,6 +584,7 @@ class Locales {
     'quickRepay': 'Quick Repay',
     'reports': 'Reports',
     'leaves': 'Leaves',
+    'loanLists': 'Loan Lists',
   };
   static const KM_KH = {
     'unableToConnectToTheInternet': 'មិនអាចភ្ជាប់អ៊ីនធឺណិតបានទេ',
@@ -865,5 +867,6 @@ class Locales {
     'quickRepay': 'បង់សង',
     'reports': 'របាយការណ៍',
     'leaves': 'សុំច្បាប់',
+    'loanLists': 'បញ្ជីប្រាក់កម្ចី',
   };
 }

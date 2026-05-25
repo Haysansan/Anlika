@@ -187,6 +187,7 @@ class CustomSummaryCard extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -219,7 +220,7 @@ class CustomSummaryCard extends StatelessWidget {
           'Total Repayment',
           style: TextStyle(
             color: Colors.white.withOpacity(0.9),
-            fontSize: 13, // matches _StatBox label
+            fontSize: 15, // matches _StatBox label
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -236,7 +237,11 @@ class CustomSummaryCard extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           totalRepaymentKhrFormatted,
-          style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16),
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.8),
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

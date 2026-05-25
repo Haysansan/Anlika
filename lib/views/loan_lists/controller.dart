@@ -1,72 +1,3 @@
-// import 'package:apploan/core/core.dart';
-// import 'package:apploan/core/offline/database_helper.dart';
-// import 'package:apploan/models/models.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:intl/intl.dart';
-
-// class LoansDashboardController extends GetxController {
-//   final RxBool isLoading = false.obs;
-
-//   final RxInt customerCount = 0.obs;
-//   final RxDouble sum = 0.0.obs;
-//   final RxDouble collectedSum = 0.0.obs;
-
-//   final RxInt selectedIndex = 0.obs;
-//   late Rx<Widget> selectedScreen;
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     _loadData();
-//   }
-
-//   @override
-//   void onClose() {
-//     super.onClose();
-//   }
-
-//   Future<void> _loadData() async {
-//     isLoading.value = true;
-//     await Future.wait([
-//       _countCustomers(),
-//       _calculateSum(),
-//       _calculateCollected(),
-//     ]);
-//     isLoading.value = false;
-//   }
-
-//   Future<void> _countCustomers() async {
-//     customerCount.value =
-//         await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
-//   }
-
-//   Future<void> _calculateSum() async {
-//     List<PaymentModel> rows =
-//         await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
-//     sum.value = rows.fold(
-//       0.0,
-//       (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
-//     );
-//   }
-
-//   Future<void> _calculateCollected() async {
-//     List<PaymentModel> rows =
-//         await DatabaseHelper.instance.queryAllRowsCollected();
-//     collectedSum.value = rows.fold(
-//       0.0,
-//       (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
-//     );
-//   }
-
-//   String formatCurrency(String amount) {
-//     final parsed = double.tryParse(amount);
-//     if (parsed == null) return 'N/A';
-//     return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
-//         .replaceAll('.00', '');
-//   }
-// }
-
 import 'package:apploan/core/core.dart';
 import 'package:apploan/core/offline/database_helper.dart';
 import 'package:apploan/models/models.dart';
@@ -75,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class LoansDashboardController extends GetxController {
+class LoanListsController extends GetxController {
   // ── Summary data ──
   final RxBool isLoading = false.obs;
   final RxInt customerCount = 0.obs;
@@ -84,12 +15,21 @@ class LoansDashboardController extends GetxController {
   final RxDouble totalRepaymentSum = 0.0.obs;
   final RxDouble exchangeRate = 4100.0.obs;
 
+  // ── Search bar ──
+  final TextEditingController searchCtl = TextEditingController();
+  // Holds the full unfiltered list loaded from DB
+  final RxList<RepaymentModel> _allRepayments = <RepaymentModel>[].obs;
+  // The list the view actually renders
+  final RxList<RepaymentModel> filteredRepayments = <RepaymentModel>[].obs;
+  final RxInt visibleCount = _pageSize.obs;
+
   // ── Tab state ──
   final RxInt selectedIndex = 0.obs;
   late Rx<Widget> selectedScreen = screens[0].obs;
 
   // Static so it survives hot reload (same as StartController)
   static List<Widget> screens = [const DashboardView()];
+  static const int _pageSize = 10;
 
   @override
   void onInit() {
@@ -106,6 +46,7 @@ class LoansDashboardController extends GetxController {
 
   @override
   void onClose() {
+    searchCtl.dispose();
     super.onClose();
   }
 
@@ -134,6 +75,36 @@ class LoansDashboardController extends GetxController {
     // }
   }
 
+  // ── Search logic ──
+
+  void onSearch(String value) {
+    visibleCount.value = _pageSize;
+    if (value.trim().isEmpty) {
+      filteredRepayments.assignAll(_allRepayments);
+      return;
+    }
+    final query = value.trim().toLowerCase();
+    filteredRepayments.assignAll(
+      _allRepayments.where(
+        (item) =>
+            item.client.toLowerCase().contains(query) ||
+            item.client_code.toLowerCase().contains(query),
+      ),
+    );
+  }
+
+  void onClearSearch() {
+    visibleCount.value = _pageSize;
+    searchCtl.clear();
+    filteredRepayments.assignAll(_allRepayments);
+  }
+
+  void showMore() {
+    final int remaining = filteredRepayments.length - visibleCount.value;
+    // use min() instead of clamp to keep the type as int
+    visibleCount.value += remaining < _pageSize ? remaining : _pageSize;
+  }
+
   String getTitle() {
     switch (selectedIndex.value) {
       case 0:
@@ -151,12 +122,19 @@ class LoansDashboardController extends GetxController {
   Future<void> _loadData() async {
     isLoading.value = true;
     await Future.wait([
+      _loadRepayments(),
       _countCustomers(),
       _calculateSum(),
       _calculateCollected(),
       _calculateTotalRepayment(),
     ]);
     isLoading.value = false;
+  }
+
+  Future<void> _loadRepayments() async {
+    final rows = await DatabaseHelper.instance.queryAllRowsRepayments(1);
+    _allRepayments.assignAll(rows);
+    filteredRepayments.assignAll(rows);
   }
 
   Future<void> _countCustomers() async {

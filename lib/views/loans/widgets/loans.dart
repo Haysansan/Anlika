@@ -41,7 +41,7 @@ class LoansWidget extends StatelessWidget {
   // TODO: Replace each Get.toNamed() argument with the real route when ready.
   // Add your route constant in lib/routes.dart first, then paste it here.
 
-  void _goLoanList() => Get.toNamed(Routes.loans); // ← already exists
+  void _goLoanList() => Get.toNamed(Routes.loanLists);
   void _goClientList() => Get.toNamed(Routes.customers); // ← already exists
   void _goDisbursement() =>
       Get.toNamed(Routes.loandisbursments); // ← already exists

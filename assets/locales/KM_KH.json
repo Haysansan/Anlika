@@ -15,8 +15,7 @@
   "unableToPickImagePleaseTryAgain": "មិនអាចជ្រើសរើសរូបភាពបានទេ សូម​ព្យាយាម​ម្តង​ទៀត",
   "successfully": "ជោកជ័យ",
   "youHavesuccessfullyCreatedTheBooking": "អ្នកបានបង្កើតការកក់ដោយជោគជ័យ",
-
-  "forgotPassword" : "ភ្លេច​លេខសំងាត់​",
+  "forgotPassword": "ភ្លេច​លេខសំងាត់​",
   "password": "ពាក្យសម្ងាត់",
   "cannotBeEmpty": "មិនអាចទទេបានទេ",
   "invalidPhoneNumber": "លេខទូរស័ព្ទមិនត្រឹមត្រូវ",
@@ -211,7 +210,6 @@
   "chooseDeliveyStatus": "ជ្រើសរើសស្ថានភាពដឹកជញ្ជូន",
   "paymentDes": "រាល់បញ្ញើទំនិញខុសច្បាប់ គឺត្រូវបានហាមឃាត់ និងជាទំនួលខុសត្រូវ\nរបស់អ្នកផ្ញើ",
   "completeDate": "ថ្ងៃ​បញ្ចប់",
-
   "next": "បន្ទាប់",
   "change": "ផ្លាស់ប្តូរ",
   "transfer": "ផ្ទេរ",
@@ -223,5 +221,6 @@
   "searchClientName": "ស្វែងរកតាមឈ្មោះអតិថិជន",
   "repayment": "ការបង់សង",
   "totalOS": "សរុបទឹកប្រាក់",
-  "totalClient": "និង ចំនួនអតិថិជន"
+  "totalClient": "និង ចំនួនអតិថិជន",
+  "loanLists": "បញ្ជីប្រាក់កម្ចី"
 }
