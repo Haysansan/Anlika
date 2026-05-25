@@ -10,9 +10,14 @@ class ConnectivityPlusManager {
   final Connectivity _connectivity = Connectivity();
 
   // Check if the device is connected
+  // Future<bool> get isConnected async {
+  //   final List<ConnectivityResult> status = await _connectivity.checkConnectivity();
+  //   return _isConnectedWithStatus(status as ConnectivityResult);
+  // }
   Future<bool> get isConnected async {
-    final List<ConnectivityResult> status = await _connectivity.checkConnectivity();
-    return _isConnectedWithStatus(status as ConnectivityResult);
+    final List<ConnectivityResult> results =
+        await _connectivity.checkConnectivity();
+    return results.any((r) => _isConnectedWithStatus(r));
   }
 
   // Helper method to check connectivity status
@@ -25,7 +30,8 @@ class ConnectivityPlusManager {
       case ConnectivityResult.other: // Added support for other connection types
         return true;
       case ConnectivityResult.none:
-      case ConnectivityResult.bluetooth: // Bluetooth is not considered a network connection
+      case ConnectivityResult
+          .bluetooth: // Bluetooth is not considered a network connection
       default:
         return false;
     }
