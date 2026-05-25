@@ -121,70 +121,14 @@ class StartView extends GetView<StartController> {
           appBar: appBarWidget(),
           drawer: const DrawerWidget(),
           body: Center(child: Obx(() => controller.selectedScreen.value)),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 15),
-              ],
-            ),
-            child: StyleProvider(
-              style: _BottomNavStyle(fontSize: 10.0),
-              child: ConvexAppBar(
-                key: const ValueKey<String>('nav-4'),
-                backgroundColor: AppColor.white,
-                color: AppColor.blueGrey,
-                activeColor: AppColor.primary,
-                height: 66,
-                style: TabStyle.reactCircle,
-                initialActiveIndex: selectedIndex,
-                onTap: (index) => controller.changeMenu(index),
-                shadowColor: const Color(0xFF9DB2CE),
-                items: [
-                  TabItem(
-                    icon: Icons.dashboard,
-                    title: LocaleKeys.dashboard.tr,
-                  ),
-                  TabItem(
-                    icon: Icons.payment,
-                    title: LocaleKeys.paymentslist.tr,
-                  ),
-                  TabItem(
-                    icon: Icons.list_alt,
-                    title: LocaleKeys.loanDisbursmentsList.tr,
-                  ),
-                ],
-              ),
-            ),
+          bottomNavigationBar: AppBottomNav(
+            navKey: const ValueKey('main-nav'),
+            initialActiveIndex: controller.selectedIndex.value,
+            onTap: (index) => controller.changeMenu(index),
+            items: mainNavItems(),
           ),
         ),
       );
     });
-  }
-}
-
-class _BottomNavStyle extends StyleHook {
-  _BottomNavStyle({required this.fontSize});
-
-  final double fontSize;
-
-  @override
-  double? get iconSize => 22;
-
-  @override
-  double get activeIconMargin => 8;
-
-  @override
-  double get activeIconSize => 24;
-
-  @override
-  TextStyle textStyle(Color color, String? fontFamily) {
-    return TextStyle(
-      color: color,
-      fontFamily: fontFamily,
-      fontSize: fontSize,
-      fontWeight: FontWeight.w700,
-      height: 1.0,
-    );
   }
 }

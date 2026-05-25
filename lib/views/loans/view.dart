@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
 import 'package:apploan/views/views.dart';
 import 'package:apploan/models/models.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // ← add this import
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
-final DashboardController dashCtl = Get.find<DashboardController>();
-final RepaymentController repaymentCtl = Get.find<RepaymentController>();
+final DashboardController loanDashCtl = Get.find<DashboardController>();
+final RepaymentController loanRepaymentCtl = Get.find<RepaymentController>();
 
 class LoansDashboardView extends GetView<LoansDashboardController> {
   const LoansDashboardView({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
             const SizedBox(height: 20),
             Obx(
               () => CustomSummaryCard(
-                clientCount: repaymentCtl.customerCount.value,
+                clientCount: loanRepaymentCtl.customerCount.value,
                 totalRepaymentUsd:
                     controller.collectedSum.value +
                     controller.totalRepaymentSum.value,
@@ -48,49 +48,15 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
         ),
       ),
       // ── add from here ──
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 15),
-          ],
-        ),
-        child: StyleProvider(
-          style: _LoansNavStyle(fontSize: 10.0),
-          child: ConvexAppBar(
-            key: const ValueKey<String>('loans-nav-3'),
-            backgroundColor: AppColor.white,
-            color: AppColor.grey,
-            activeColor: AppColor.primary,
-            height: 66,
-            style: TabStyle.reactCircle,
-            initialActiveIndex: 0,
-            onTap: (index) => controller.changeMenu(index),
-            shadowColor: const Color(0xFF9DB2CE),
-            items: [
-              TabItem(icon: Icons.dashboard, title: LocaleKeys.loans.tr),
-              TabItem(
-                icon: Image.asset(
-                  'assets/images/icon/addclient.png',
-                  width: 28,
-                  height: 28,
-                  color: AppColor.grey,
-                ),
-                activeIcon: Image.asset(
-                  'assets/images/icon/addclient.png',
-                  width: 28,
-                  height: 28,
-                  color: AppColor.primary,
-                ),
-                title: LocaleKeys.addCustomer.tr,
-              ),
-              TabItem(
-                icon: Icons.list_alt,
-                title: LocaleKeys.loanDisbursmentsList.tr,
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: AppBottomNav(
+        navKey: const ValueKey('loans-nav'),
+        initialActiveIndex: 0,
+        onTap: (index) => controller.changeMenu(index),
+        // TODO: swap based on role when ready
+        // items: UserRepository.shared.isAdmin
+        //     ? loanNavItemsAdmin()
+        //     : loanNavItemsCO(),
+        items: loanNavItemsCO(),
       ),
       // ── add to here ──
     );
