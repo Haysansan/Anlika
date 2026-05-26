@@ -15,3 +15,4 @@ export 'decoration.dart';
 export 'custom_summary_card.dart';
 export 'bottom_sheet/bottom_nav.dart';
 export 'bottom_sheet/bottom_nav_item.dart';
+export 'list_tile/loan_client_card.dart';
