@@ -22,28 +22,27 @@ class LoanListsView extends GetView<LoanListsController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── Fixed: Summary card ──
-            Padding(
-              padding: UIConstants.spacing.padAll,
-              child: Obx(
-                () => CustomSummaryCard(
-                  clientCount: loanRepaymentCtl.customerCount.value,
-                  totalRepaymentUsd:
-                      controller.collectedSum.value +
-                      controller.totalRepaymentSum.value,
-                  collectedUsd: controller.collectedSum.value,
-                  exchangeRate: 4100,
-                  totalRepaymentFormatted: controller.totalToCollectUsd,
-                  totalRepaymentKhrFormatted: controller.totalToCollectKhr,
-                  onClientsTap: () {
-                    DialogManager.showDialog(
-                      title: 'Coming Soon',
-                      subTitle:
-                          'Client list will be available in a future update.',
-                    );
-                  },
-                ),
+            const SizedBox(height: 20),
+            Obx(
+              () => CustomSummaryCard(
+                clientCount: loanRepaymentCtl.customerCount.value,
+                totalRepaymentUsd:
+                    controller.collectedSum.value +
+                    controller.totalRepaymentSum.value,
+                collectedUsd: controller.collectedSum.value,
+                exchangeRate: 4100,
+                totalRepaymentFormatted: controller.totalToCollectUsd,
+                totalRepaymentKhrFormatted: controller.totalToCollectKhr,
+                onClientsTap: () {
+                  DialogManager.showDialog(
+                    title: 'Coming Soon',
+                    subTitle:
+                        'Client list will be available in a future update.',
+                  );
+                },
               ),
             ),
+            20.height,
 
             // ── Fixed: Search bar ──
             Padding(
