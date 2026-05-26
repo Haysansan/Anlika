@@ -12,118 +12,20 @@ class WrittenoffWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return LoanClientCard(
+      clientName: WOLoan.client,
+      cycle: WOLoan.cycle,
+      mobile: WOLoan.mobile,
+      overdueDays: WOLoan.arrea,
+      villageName: WOLoan.villages_name,
+      lastPaymentDate: WOLoan.last_payment_date,
+      disbursementAmount: WOLoan.principal,
+      bottomLabel: 'ប្រាក់ត្រូវបង់ផ្ដាច់៖',
+      bottomAmount: WOLoan.total_repayment,
       onTap:
           () => BottomSheetManager.custom(
             content: WrittenoffSheet(WOLoan: WOLoan),
           ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: UIConstants.radius.radiusAll,
-              border: Border.all(width: 1, color: _customColor('ជោគជ័យ')),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  contentPadding: EdgeInsets.zero, // Remove default padding
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: AppColor.white,
-                    child: Image.asset(
-                      _AssetPath('ជោគជ័យ'),
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  title: Text(
-                    '${WOLoan.client} (វដ្គទី ${WOLoan.cycle})',
-                    style: AppTextStyle.normalPrimarySemiBold.copyWith(
-                      color: Color(0xFF171617),
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Phone number
-                                Text(
-                                  '${WOLoan.mobile}',
-                                  style: AppTextStyle.smallGreyRegular,
-                                ),
-                                SizedBox(
-                                  width: Get.width * 0.4,
-                                  child: Text(
-                                    WOLoan.villages_name,
-                                    style: AppTextStyle.smallGreyRegular,
-                                  ),
-                                ),
-                                Text(
-                                  WOLoan.last_payment_date,
-                                  style: AppTextStyle.smallGreyRegular,
-                                ),
-                                Text(
-                                  'ប្រាក់កម្ចី៖ ${formatCurrency(WOLoan.principal.toString())}',
-                                  style: AppTextStyle.smallPrimaryRegular,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Total amount Row integrated into the subtitle
-                    ],
-                  ),
-                  // trailing: SizedBox(
-                  //   width: 50, // Adjust this width as necessary
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       tooltip: 'Send',
-                  //       onPressed: () async {
-                  //
-                  //       },
-                  //       icon: Image.asset(
-                  //         AssetPath.apptelegram.path,
-                  //         height: 50,
-                  //         width: 50,
-                  //         fit: BoxFit.contain,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  isThreeLine: true,
-                ),
-                const DarkGreyDivider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                      child: Text(
-                        'ប្រាក់ត្រូវបង់ផ្ដាច់៖ ${formatCurrency(WOLoan.total_repayment.toString())}',
-                        style: AppTextStyle.smallPrimaryRegular,
-                      ),
-                      onPressed: () {
-                        /* ... */
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
