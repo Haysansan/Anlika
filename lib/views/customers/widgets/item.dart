@@ -7,7 +7,8 @@ import 'package:apploan/models/models.dart';
 import 'package:apploan/views/views.dart';
 
 class CustomersItemWidget extends StatelessWidget {
-  const CustomersItemWidget({Key? key, required this.delivery}) : super(key: key);
+  const CustomersItemWidget({Key? key, required this.delivery})
+    : super(key: key);
 
   final ClientModel delivery;
 
@@ -46,13 +47,12 @@ class CustomersItemWidget extends StatelessWidget {
               borderRadius: UIConstants.radius.radiusAll,
               border: Border.all(
                 width: 1,
-                color: _customColor(delivery.first_name +' '+ delivery.last_name),
+                color: _customColor(delivery.displayName),
               ),
             ),
             child: Row(
               children: [
                 // Logo
-
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: AppColor.white,
@@ -69,12 +69,13 @@ class CustomersItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            delivery.first_name +' '+ delivery.last_name,
-                            style: AppTextStyle.normalPrimarySemiBold.copyWith(
-                              color: _customColor(delivery.first_name +' '+ delivery.last_name),
-                            ),
-                          ),
+                          // Text(
+                          //   delivery.first_name +' '+ delivery.last_name,
+                          //   style: AppTextStyle.normalPrimarySemiBold.copyWith(
+                          //     color: _customColor(delivery.first_name +' '+ delivery.last_name),
+                          //   ),
+                          // ),
+                          Text(delivery.displayName),
                           6.width,
                           Expanded(
                             child: Text(
@@ -99,7 +100,8 @@ class CustomersItemWidget extends StatelessWidget {
                       // Zone
                       SizedBox(
                         width: Get.width * 0.4,
-                        child: Text('CID ${delivery.client_code}',
+                        child: Text(
+                          'CID ${delivery.client_code}',
                           maxLines: 2,
                           style: AppTextStyle.smallGreyRegular,
                         ),
@@ -108,7 +110,8 @@ class CustomersItemWidget extends StatelessWidget {
                       // villages
                       SizedBox(
                         width: Get.width * 0.4,
-                        child: Text('ភូមិៈ ${delivery.address}',
+                        child: Text(
+                          'ភូមិៈ ${delivery.address}',
                           maxLines: 2,
                           style: AppTextStyle.smallGreyRegular,
                         ),
@@ -133,22 +136,23 @@ class CustomersItemWidget extends StatelessWidget {
   String formatCurrency(String amount) {
     // ignore: unnecessary_null_comparison
     return amount != null
-        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
+        ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'
+            .replaceAll('.00', '')
         : 'N/A';
   }
 
   Color _customColor(String status) {
     switch (status) {
       case 'កំពុងដំណើរការ':
-        return AppColor.blue;
+        return const Color(0xFF52F321);
       case 'បញ្ចប់':
-        return AppColor.green;
+        return const Color(0xFF2196F3);
       case 'ក្នុងស្តុក':
         return const Color(0xFFF5C815);
       case 'ត្រឡប់':
         return const Color(0xFF4C56AF);
       default:
-        return const Color(0xFFDE0CDE);
+        return const Color(0xFFD3D3D3);
     }
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
 import 'package:apploan/views/views.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 final DashboardController listDashCtl = Get.find<DashboardController>();
 final RepaymentController listRepaymentCtl = Get.find<RepaymentController>();

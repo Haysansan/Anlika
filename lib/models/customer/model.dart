@@ -30,22 +30,31 @@ class ClientModel {
     required this.address,
     required this.name,
   });
+
+  String get displayName {
+    final hasFirstLast = first_name != 'N/A' || last_name != 'N/A';
+    if (hasFirstLast) {
+      return '${first_name} ${last_name}'.trim();
+    }
+    return name != 'N/A' ? name : 'N/A';
+  }
+
   factory ClientModel.fromJson(Map<String, dynamic> json) {
     return ClientModel(
-        branch: json["branch"] ?? 'N/A',
-        staff: json["staff"] ?? 'N/A',
-        id: json["id"] ?? 0,
-        client_code: json["client_code"] ?? 'N/A',
-        loan_officer_id: json["loan_officer_id"] ?? 'N/A',
-        first_name: json["first_name"] ?? 'N/A',
-        last_name: json["last_name"] ?? 'N/A',
-        gender: json["gender"] ?? 'N/A',
-        mobile: json["mobile"] ?? 'N/A',
-        external_id: json["external_id"] ?? 'N/A',
-        email: json["email"] ?? 'N/A',
-        photo: json["photo"] ?? '',
-        address: json["address"] ?? 'N/A',
-        name: json["name"] ?? 'N/A',
+      branch: json["branch"] ?? 'N/A',
+      staff: json["staff"] ?? 'N/A',
+      id: json["id"] ?? 0,
+      client_code: json["client_code"] ?? 'N/A',
+      loan_officer_id: json["loan_officer_id"] ?? 'N/A',
+      first_name: json["first_name"] ?? 'N/A',
+      last_name: json["last_name"] ?? 'N/A',
+      gender: json["gender"] ?? 'N/A',
+      mobile: json["mobile"] ?? 'N/A',
+      external_id: json["external_id"] ?? 'N/A',
+      email: json["email"] ?? 'N/A',
+      photo: json["photo"] ?? '',
+      address: json["address"] ?? 'N/A',
+      name: json["name"] ?? 'N/A',
     );
   }
 }

@@ -14,99 +14,71 @@ class CustomersView extends GetView<CustomersController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: LocaleKeys.customer.tr,
+        title: LocaleKeys.clientLists.tr,
         onBack: () => Navigator.pop(context, false),
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColor.red),
-          );
-        }
-
-        if (controller.customerModel.isEmpty) {
-          return const NoDataWidget();
-        }
-
-        final List<ClientModel> delivery = controller.customerModel;
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: UIConstants.spacing.padHorizontal,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  UIConstants.spacing.height,
-
-                  // Clear
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        LocaleKeys.searchByCIDName.tr,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Search bar — always visible ──
+          Padding(
+            padding: UIConstants.spacing.padAll,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      LocaleKeys.searchByCIDName.tr,
+                      style: AppTextStyle.midPrimaryBold,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        if (controller.searchCtl.text.isEmpty) return;
+                        controller.clearFilter();
+                      },
+                      child: Text(
+                        LocaleKeys.clear.tr,
                         style: AppTextStyle.midPrimaryBold,
                       ),
-                      InkWell(
-                        onTap: () {
-                          if (controller.searchCtl.text.isEmpty) {
-                            return;
-                          }
-                          controller.clearFitler();
-                          controller.fetchClientSearch(
-                            isRefresh: true,
-                            isFilter: true,
-                          );
-                        },
-                        child: Text(
-                          LocaleKeys.clear.tr,
-                          style: AppTextStyle.midPrimaryBold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  UIConstants.spacing.height,
-
-                  // Search
-                  CustomTextField(
-                    controller: controller.searchCtl,
-                    filled: true,
-                    hintText: LocaleKeys.searchByCIDName.tr,
-                    onFieldSubmitted: (value) {
-                      if (value.isEmpty) {
-                        return;
-                      }
-                      controller.setSearchValue();
-                      controller.fetchClientSearch(
-                        isRefresh: true,
-                        isFilter: true,
-                      );
-                    },
-                  ),
-                  UIConstants.spacing.height,
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                UIConstants.spacing.height,
+                AppSearchBar(
+                  controller: controller.searchCtl,
+                  hintText: LocaleKeys.searchByCIDName.tr,
+                  onSubmitted: (value) => controller.onSearch(value),
+                  onChanged: (value) => controller.onSearch(value),
+                  onClear: controller.onClearSearch,
+                ),
+              ],
             ),
+          ),
 
-            // Title
-            // Padding(
-            //   padding: UIConstants.spacing.padHorizontal,
-            //   child: Text(
-            //     '${LocaleKeys.totalOS.tr} ${controller.total}  ${LocaleKeys.totalClient.tr}',
-            //     style: AppTextStyle.midPrimaryBold,
-            //   ),
-            // ),
-            UIConstants.midSpacing.height,
+          // ── List ──
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return const Center(
+                  child: CircularProgressIndicator(color: AppColor.red),
+                );
+              }
 
-            // Listing
-            Expanded(
-              child: RefreshIndicator(
+              if (controller.customerModel.isEmpty) {
+                return const NoDataWidget();
+              }
+
+              final visibleItems =
+                  controller.customerModel
+                      .take(controller.visibleCount.value)
+                      .toList();
+
+              return RefreshIndicator(
                 backgroundColor: AppColor.white,
                 color: AppColor.primary,
-                onRefresh: () async => await controller.onRefresh(),
+                onRefresh: () async => controller.onRefresh(),
                 child: pull.SmartRefresher(
                   header: pull.CustomHeader(
                     height: 0,
@@ -114,36 +86,68 @@ class CustomersView extends GetView<CustomersController> {
                   ),
                   enablePullUp: !controller.pagination.isEndOfPage,
                   controller: controller.refreshCtl,
-                  onLoading: () async => await controller.onLoading(),
+                  onLoading: () async => controller.onLoading(),
                   child: ListView.builder(
                     padding: EdgeInsets.only(
                       left: UIConstants.spacing.toDouble(),
                       right: UIConstants.spacing.toDouble(),
                       top: UIConstants.midSpacing.toDouble(),
                     ),
-                    itemCount: delivery.length,
+                    // +1 for the Show More row at the bottom
+                    itemCount: visibleItems.length + 1,
                     itemBuilder: (context, index) {
+                      // Last slot = Show More button or end spacer
+                      if (index == visibleItems.length) {
+                        final int visible = controller.visibleCount.value;
+                        final int total = controller.customerModel.length;
+
+                        if (visible >= total) {
+                          return UIConstants.spacing.height;
+                        }
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: UIConstants.spacing.toDouble(),
+                          ),
+                          child: Center(
+                            child: TextButton.icon(
+                              onPressed: controller.showMore,
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                color: AppColor.primary,
+                              ),
+                              label: Text(
+                                'Show More (${total - visible} remaining)',
+                                style: const TextStyle(color: AppColor.primary),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
                       return Padding(
                         padding: UIConstants.spacing.padBottom,
-                        child: CustomersItemWidget(delivery: delivery[index]),
+                        child: CustomersItemWidget(
+                          delivery: visibleItems[index],
+                        ),
                       );
                     },
                   ),
                 ),
-              ),
-            ),
-          ],
-        );
-      }),
+              );
+            }),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: AddCustomerHandleTap,
-        tooltip: 'Perform Action',
+        onPressed: _addCustomerHandleTap,
+        tooltip: 'Add Customer',
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void AddCustomerHandleTap() {
+  void _addCustomerHandleTap() {
     Get.back();
     Get.toNamed(Routes.addCustomer);
   }

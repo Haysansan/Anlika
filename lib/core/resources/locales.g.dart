@@ -297,6 +297,7 @@ class LocaleKeys {
   static const quickRepay = 'quickRepay';
   static const reports = 'reports';
   static const leaves = 'leaves';
+  static const clientLists = 'clientLists';
 }
 
 class Locales {
@@ -585,6 +586,7 @@ class Locales {
     'reports': 'Reports',
     'leaves': 'Leaves',
     'loanLists': 'Loan Lists',
+    'clientLists': 'Client Lists',
   };
   static const KM_KH = {
     'unableToConnectToTheInternet': 'មិនអាចភ្ជាប់អ៊ីនធឺណិតបានទេ',
@@ -868,5 +870,6 @@ class Locales {
     'reports': 'របាយការណ៍',
     'leaves': 'សុំច្បាប់',
     'loanLists': 'បញ្ជីប្រាក់កម្ចី',
+    'clientLists': 'បញ្ជីអតិថិជន',
   };
 }

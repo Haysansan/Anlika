@@ -222,5 +222,6 @@
   "repayment": "Repayment",
   "totalOS": "Total OS",
   "totalClient": "And Total Client",
-  "loanLists": "Loan Lists"
+  "loanLists": "Loan Lists",
+  "clientLists": "Client Lists"
 }
