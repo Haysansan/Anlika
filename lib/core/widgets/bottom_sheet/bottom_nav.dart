@@ -9,12 +9,16 @@ class AppBottomNav extends StatelessWidget {
     required this.onTap,
     this.initialActiveIndex = 0,
     this.navKey,
+    this.activeColor,
+    this.flat = false,
   }) : super(key: key);
 
   final List<TabItem> items;
   final Function(int) onTap;
   final int initialActiveIndex;
   final ValueKey<String>? navKey;
+  final Color? activeColor;
+  final bool flat;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class AppBottomNav extends StatelessWidget {
           key: navKey,
           backgroundColor: AppColor.white,
           color: AppColor.grey,
-          activeColor: AppColor.primary,
+          activeColor: activeColor ?? AppColor.primary,
           height: 66,
           style: TabStyle.reactCircle,
           initialActiveIndex: initialActiveIndex,
