@@ -31,7 +31,11 @@ class AppSearchBar extends StatelessWidget {
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
-        prefixIcon: const Icon(Icons.search, color: AppColor.red, size: 22),
+        prefixIcon: const Icon(
+          Icons.search,
+          color: AppColor.hardOrange,
+          size: 22,
+        ),
         suffixIcon: _ClearButton(controller: controller, onClear: onClear),
         filled: true,
         fillColor: AppColor.white,
@@ -41,15 +45,15 @@ class AppSearchBar extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: AppColor.lightGrey, width: 1.5),
+          borderSide: const BorderSide(color: AppColor.lightred, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: AppColor.lightGrey, width: 1.5),
+          borderSide: const BorderSide(color: AppColor.lightred, width: 1.5),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: AppColor.lightGrey, width: 1.5),
+          borderSide: const BorderSide(color: AppColor.lightred, width: 1.5),
         ),
       ),
     );

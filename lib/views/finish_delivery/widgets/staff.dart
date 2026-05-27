@@ -6,7 +6,8 @@ import 'package:apploan/views/views.dart';
 class StaffWidget extends StatelessWidget {
   StaffWidget({Key? key}) : super(key: key);
 
-  final FinishDeliveryController controller = Get.find<FinishDeliveryController>();
+  final FinishDeliveryController controller =
+      Get.find<FinishDeliveryController>();
   final DashboardController dashboardCtl = DashboardController();
 
   @override
@@ -30,26 +31,32 @@ class StaffWidget extends StatelessWidget {
               Obx(() {
                 if (controller.groupValue.value == 'staff') {
                   return Padding(
-                    padding: controller.groupValue.value != 'staff'
-                        ? EdgeInsets.zero
-                        : EdgeInsets.only(
-                            bottom: UIConstants.spacing.toDouble(),
-                            left: UIConstants.spacing.toDouble(),
-                            right: UIConstants.spacing.toDouble(),
-                          ),
+                    padding:
+                        controller.groupValue.value != 'staff'
+                            ? EdgeInsets.zero
+                            : EdgeInsets.only(
+                              bottom: UIConstants.spacing.toDouble(),
+                              left: UIConstants.spacing.toDouble(),
+                              right: UIConstants.spacing.toDouble(),
+                            ),
                     child: Column(
                       children: [
                         _customTextField(
-                          controller: controller.deliveryUsdCtl..text = controller.totalAmount.toString(),
+                          controller:
+                              controller.deliveryUsdCtl
+                                ..text = controller.totalAmount.toString(),
                           hint: 'បញ្ចូលលុយដុល្លារ',
                           isUsd: true,
                           enable: false,
                           onChanged: (value) {
                             if (controller.groupValue.value != 'other') {
-                              controller.deliveryRielCtl.text = calculatePricingToKhmerCurreny(
+                              controller
+                                  .deliveryRielCtl
+                                  .text = calculatePricingToKhmerCurreny(
                                 enterAmount: value,
                                 paidAmount: controller.totalAmount.toDouble(),
-                                rating: dashboardCtl.dashboardModel.value?.rating,
+                                rating:
+                                    dashboardCtl.dashboardModel.value?.rating,
                               );
                             }
                           },
@@ -60,11 +67,15 @@ class StaffWidget extends StatelessWidget {
                           hint: 'បញ្ចូលលុយខ្មែរ',
                           enable: false,
                           onChanged: (value) {
-                            if (controller.groupValue.value != 'other' && controller.deliveryUsdCtl.text.isEmpty) {
-                              controller.deliveryUsdCtl.text = calculatePricingToDollarCurrency(
+                            if (controller.groupValue.value != 'other' &&
+                                controller.deliveryUsdCtl.text.isEmpty) {
+                              controller
+                                  .deliveryUsdCtl
+                                  .text = calculatePricingToDollarCurrency(
                                 enterAmount: value,
                                 paidAmount: controller.totalAmount.toDouble(),
-                                rating: dashboardCtl.dashboardModel.value?.rating,
+                                rating:
+                                    dashboardCtl.dashboardModel.value?.rating,
                               );
                             }
                           },
@@ -74,7 +85,7 @@ class StaffWidget extends StatelessWidget {
                   );
                 }
                 return const SizedBox.shrink();
-              })
+              }),
             ],
           ),
         ),
@@ -89,7 +100,7 @@ class StaffWidget extends StatelessWidget {
             );
           }
           return SizedBox.fromSize();
-        })
+        }),
       ],
     );
   }
@@ -115,7 +126,7 @@ class StaffWidget extends StatelessWidget {
         child: Image.asset(
           isUsd ? AssetPath.usd.path : AssetPath.riel.path,
           scale: 19,
-          color: AppColor.red,
+          color: AppColor.hardOrange,
         ),
       ),
       onChanged: onChanged,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColor {
   static const primary = Color(0xFFF21A3E);
+  static const secondPrime = Color(0xFFFF0000);
   static const primaryText = Color(0xFF000000);
   static const primaryBtn = Color(0xFFF21A3E);
 
@@ -24,6 +25,8 @@ class AppColor {
   static const red = Color(0xFFA80000);
   static const yellow = Color(0xFFFFEB3B);
   static const hardOrange = Color(0xFFF23639);
+  static const pinkRed = Color(0xFFF21A3E);
+  static const lightred = Color(0xFFFFCDCE);
 }
 
 /// Naming Conventions:

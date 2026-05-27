@@ -53,7 +53,6 @@ class LoanClientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Resolve all fields once at the top
     final name = _resolve(clientName, _fallbackName);
     final nameLatin = clientNameLatin?.trim();
     final cycleVal = _resolve(cycle, '1');
@@ -64,11 +63,6 @@ class LoanClientCard extends StatelessWidget {
     final payAmount = _resolve(bottomAmount, _fallbackAmount);
     final payLabel = _resolve(bottomLabel, _fallbackLabel);
 
-    final displayName =
-        (nameLatin != null && nameLatin.isNotEmpty)
-            ? '$name  -  $nameLatin'
-            : name;
-
     return InkWell(
       onTap: onTap,
       borderRadius: UIConstants.radius.radiusAll,
@@ -76,7 +70,7 @@ class LoanClientCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColor.white,
           borderRadius: UIConstants.radius.radiusAll,
-          border: Border.all(width: 1, color: AppColor.lightGrey),
+          border: Border.all(width: 1, color: AppColor.lightred),
         ),
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -92,13 +86,32 @@ class LoanClientCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        displayName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF171617),
-                        ),
+                      // Name + cycle inline
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              nameLatin != null && nameLatin.isNotEmpty
+                                  ? '$name  -  $nameLatin'
+                                  : name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF171617),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            '(វដ្គទី $cycleVal)',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.pinkRed,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 6),
                       _buildInfoRow(phone, location, days),
@@ -113,38 +126,58 @@ class LoanClientCard extends StatelessWidget {
             const DarkGreyDivider(),
             const SizedBox(height: 10),
 
-            // ── Bottom: loan amount + pay pill ──
+            // ── Bottom: loan amount (2 lines) + pay pill ──
             Row(
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('💰', style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 6),
-                    Text(
-                      'ប្រាក់កម្ចី ៖ ${_formatCurrency(disbAmount)}',
-                      style: AppTextStyle.smallPrimaryRegular,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Image.asset(
+                          //   'assets/images/icon/amountLoans.png',
+                          //   width: 16,
+                          //   height: 16,
+                          // ),
+                          // const SizedBox(width: 6),
+                          Text(
+                            'ប្រាក់កម្ចី',
+                            style: AppTextStyle.smallPrimaryRegular,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        _formatCurrency(disbAmount),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF171617),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: onBottomActionTap,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 8,
+                      vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColor.red,
+                      color: AppColor.hardOrange,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       '$payLabel ៖ ${_formatCurrency(payAmount)}',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ),
@@ -158,17 +191,22 @@ class LoanClientCard extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return CircleAvatar(
-      radius: 28,
-      backgroundColor: AppColor.red,
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+        border: Border.all(color: AppColor.secondPrime, width: 2.5),
+      ),
+      padding: const EdgeInsets.all(5), // white gap between rings
       child: Container(
-        width: 44,
-        height: 44,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2.5),
+          color: Colors.white,
+          border: Border.all(color: AppColor.secondPrime, width: 12),
         ),
-        child: const Icon(Icons.check, color: Colors.white, size: 22),
+        child: Icon(Icons.done, color: AppColor.secondPrime, size: 18),
       ),
     );
   }
@@ -192,7 +230,7 @@ class LoanClientCard extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: AppColor.red),
+        Icon(icon, size: 14, color: AppColor.secondPrime),
         const SizedBox(width: 3),
         Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ],

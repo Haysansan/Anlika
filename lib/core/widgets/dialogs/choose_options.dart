@@ -28,13 +28,17 @@ class ChooseOptionsDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (UserRepository.shared.isDriver && controller.selectedIndex.value == 2)
+            if (UserRepository.shared.isDriver &&
+                controller.selectedIndex.value == 2)
               const SizedBox()
             else
               Padding(
                 padding: UIConstants.spacing.padBottom,
                 child: PrimaryButton(
-                  text: isScanner ? LocaleKeys.qrCode.tr : LocaleKeys.sampleBooking.tr,
+                  text:
+                      isScanner
+                          ? LocaleKeys.qrCode.tr
+                          : LocaleKeys.sampleBooking.tr,
                   onPressed: () {
                     Get.back();
                     firstBtnOnPressed();
@@ -42,7 +46,10 @@ class ChooseOptionsDialog extends StatelessWidget {
                 ),
               ),
             PrimaryButton(
-              text: isScanner ? LocaleKeys.enterProductCode.tr : LocaleKeys.packagesBooking.tr,
+              text:
+                  isScanner
+                      ? LocaleKeys.enterProductCode.tr
+                      : LocaleKeys.packagesBooking.tr,
               onPressed: () {
                 Get.back();
                 secondBtnOnPressed();

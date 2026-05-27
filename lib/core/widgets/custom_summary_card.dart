@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:apploan/core/core.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
@@ -183,7 +184,7 @@ class CustomSummaryCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Clients',
+                    LocaleKeys.clients.tr,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontSize: 16,
@@ -217,7 +218,7 @@ class CustomSummaryCard extends StatelessWidget {
 
         // ── Total repayment section ──
         Text(
-          'Total Repayment',
+          LocaleKeys.totalRepayment.tr,
           style: TextStyle(
             color: Colors.white.withOpacity(0.9),
             fontSize: 15, // matches _StatBox label

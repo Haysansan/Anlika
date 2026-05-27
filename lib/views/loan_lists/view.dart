@@ -63,7 +63,9 @@ class LoanListsView extends GetView<LoanListsController> {
               child: Obx(() {
                 if (controller.isLoading.value) {
                   return const Center(
-                    child: CircularProgressIndicator(color: AppColor.red),
+                    child: CircularProgressIndicator(
+                      color: AppColor.secondPrime,
+                    ),
                   );
                 }
 
@@ -99,11 +101,13 @@ class LoanListsView extends GetView<LoanListsController> {
                             onPressed: controller.showMore,
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
-                              color: AppColor.primary,
+                              color: AppColor.hardOrange,
                             ),
                             label: Text(
                               'Show More (${controller.filteredRepayments.length - controller.visibleCount.value} remaining)',
-                              style: const TextStyle(color: AppColor.primary),
+                              style: const TextStyle(
+                                color: AppColor.hardOrange,
+                              ),
                             ),
                           ),
                         ),
