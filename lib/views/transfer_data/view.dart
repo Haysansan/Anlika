@@ -102,7 +102,7 @@ class TransferDataView extends GetView<TransferDataController> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        '${(controller.progress.value * 100).toStringAsFixed(0)}% Synced',
+                        '${(controller.progress.value * 100).toStringAsFixed(0)}% Transferred',
                       ),
                     ],
                   ),
@@ -112,7 +112,7 @@ class TransferDataView extends GetView<TransferDataController> {
               // ── Transfer Button ──
               Obx(() {
                 return PrimaryButton(
-                  text: LocaleKeys.transfer.tr,
+                  text: LocaleKeys.transfersdata.tr,
                   width: 100,
                   onPressed: controller.isLoading.value ? null : onSearch,
                 );
