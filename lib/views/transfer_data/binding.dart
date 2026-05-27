@@ -5,5 +5,8 @@ class TransferDataBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<TransferDataController>(() => TransferDataController());
+    Get.lazyPut<DashboardController>(() => DashboardController());
+    Get.lazyPut<DisburmentListController>(() => DisburmentListController());
+    Get.lazyPut<RepaymentController>(() => RepaymentController());
   }
 }

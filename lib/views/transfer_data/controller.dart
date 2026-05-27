@@ -10,9 +10,8 @@ import 'package:dio/dio.dart' as dio;
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'package:apploan/views/dashboard/dashboard.dart';
+import 'package:apploan/views/views.dart';
 
 class TransferDataController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -23,14 +22,31 @@ class TransferDataController extends GetxController {
   var progress = 0.0.obs; // Track progress
   final RxList<PaymentModel> repayment = <PaymentModel>[].obs;
   final RxList<PaymentModel> repayments = <PaymentModel>[].obs;
-  final TextEditingController totalClient = TextEditingController();
-  final TextEditingController totalAmount = TextEditingController();
+  // final TextEditingController totalClient = TextEditingController();
+  // final TextEditingController totalAmount = TextEditingController();
 
+  // ── Summary data ──
+  final RxInt customerCount = 0.obs;
+  final RxDouble sum = 0.0.obs;
+  final RxDouble collectedSum = 0.0.obs;
+  final RxDouble totalRepaymentSum = 0.0.obs;
+  final RxDouble exchangeRate = 4100.0.obs;
+  // ── Tab state ──
+  final RxInt selectedIndex = 0.obs;
+  late Rx<Widget> selectedScreen = screens[0].obs;
+  // Static so it survives hot reload (same as StartController)
+  static List<Widget> screens = [const DashboardView()];
   final RxList<PaymentModel> repaymentNotSync = <PaymentModel>[].obs;
+
   @override
   void onInit() {
-    _countCustomers();
-    _calculateSum();
+    screens = List.from([
+      const DashboardView(), // index 0 — Loans home grid
+      const SizedBox(), // index 1 — TODO: replace with real screen e.g. AddCustomersView()
+      const DisburmentListView(), // index 2 — Disbursement list (already exists)
+    ]);
+    selectedScreen = screens[0].obs;
+    _loadData();
     super.onInit();
     // Any initialization code can go here
   }
@@ -38,8 +54,56 @@ class TransferDataController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
 
-    // Any cleanup code can go here
+  // ── Tab navigation ──
+  void handleClickBack() {
+    if (selectedIndex.value != 0) {
+      changeMenu(0);
+    }
+  }
+
+  void changeMenu(int index) {
+    selectedIndex.value = index;
+    selectedScreen.value = screens[selectedIndex.value];
+
+    // Trigger data fetch per tab — add more cases as screens are built
+    if (index == 2) {
+      final DisburmentListController disbCtl =
+          Get.find<DisburmentListController>();
+      disbCtl.fetchDisburmentList();
+    }
+
+    // TODO index 1 — uncomment and wire when New Clients screen is ready:
+    // if (index == 1) {
+    //   final AddCustomersController addCtl = Get.find<AddCustomersController>();
+    //   addCtl.someInitMethod();
+    // }
+  }
+
+  String getTitle() {
+    switch (selectedIndex.value) {
+      case 0:
+        return LocaleKeys.loans.tr;
+      case 1:
+        return 'New Clients'; // TODO: add locale key when ready
+      case 2:
+        return LocaleKeys.loanDisbursmentsList.tr;
+      default:
+        return LocaleKeys.loans.tr;
+    }
+  }
+
+  // ── Summary data loaders ───
+  Future<void> _loadData() async {
+    isLoading.value = true;
+    await Future.wait([
+      _countCustomers(),
+      _calculateSum(),
+      _calculateCollected(),
+      _calculateTotalRepayment(),
+    ]);
+    isLoading.value = false;
   }
 
   // show branch_id for login
@@ -54,19 +118,36 @@ class TransferDataController extends GetxController {
     return user_id;
   }
 
-  final RxInt customerCount = 0.obs;
   Future<void> _countCustomers() async {
     customerCount.value =
         await DatabaseHelper.instance.countCustomersRepaymentNotYetSync();
   }
 
-  final RxDouble sum = 0.0.obs;
   Future<void> _calculateSum() async {
     List<PaymentModel> rows =
-        await DatabaseHelper.instance.queryAllRowsCollectedNotYetSync();
+        await DatabaseHelper.instance.queryAllRowsCollected();
+
     sum.value = rows.fold(
       0.0,
       (prev, element) => prev + (double.tryParse(element.total_repayment) ?? 0),
+    );
+  }
+
+  Future<void> _calculateCollected() async {
+    final List<PaymentModel> rows =
+        await DatabaseHelper.instance.queryAllRowsCollected();
+    collectedSum.value = rows.fold(
+      0.0,
+      (prev, e) => prev + (double.tryParse(e.total_repayment) ?? 0),
+    );
+  }
+
+  Future<void> _calculateTotalRepayment() async {
+    final List<RepaymentModel> rows = await DatabaseHelper.instance
+        .queryAllRowsRepayments(1);
+    totalRepaymentSum.value = rows.fold(
+      0.0,
+      (prev, e) => prev + (double.tryParse(e.total_amount) ?? 0),
     );
   }
 
@@ -82,6 +163,17 @@ class TransferDataController extends GetxController {
     if (parsed == null) return 'N/A';
     return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
         .replaceAll('.00', '');
+  }
+
+  String get totalToCollectUsd {
+    if (exchangeRate.value == 0 || totalRepaymentSum.value == 0)
+      return '\$0.00';
+    final usd = totalRepaymentSum.value / exchangeRate.value;
+    return '\$${NumberFormat('#,##0.00').format(usd)}';
+  }
+
+  String get totalToCollectKhr {
+    return '${NumberFormat('#,##0').format(totalRepaymentSum.value)}៛';
   }
 
   // Future<void> sendDataToServer() async {
@@ -231,6 +323,10 @@ class TransferDataController extends GetxController {
           subTitle: LocaleKeys.youHavesuccessfullysyncData.tr,
           onPressed: () => Get.back(),
         );
+
+        // ── refresh card after sync ──
+        await _countCustomers();
+        await _calculateSum();
 
         if (Get.isRegistered<DashboardController>()) {
           Get.find<DashboardController>().fetchSummaryAmounts();

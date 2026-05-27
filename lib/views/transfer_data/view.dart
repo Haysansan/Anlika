@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
 import 'package:apploan/views/views.dart';
-import 'package:apploan/models/models.dart';
 
 class TransferDataView extends GetView<TransferDataController> {
   const TransferDataView({Key? key}) : super(key: key);
+
   void onSearch() async {
     controller.sendDataToServer();
   }
@@ -50,44 +48,32 @@ class TransferDataView extends GetView<TransferDataController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Obx(() {
-                if (controller.isLoadings.value ||
-                    controller.isLoading1.value) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          top: 5.0,
-                          right: 10.0,
-                          bottom: 5.0,
-                        ),
-                        child: TotalPackageWidget(
-                          icon: Icons.people_alt,
-                          packages:
-                              '${controller.totalClient.text}'
-                              ' ${LocaleKeys.clients.tr}',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          top: 0.0,
-                          right: 10.0,
-                          bottom: 0.0,
-                        ),
-                        child: TotalIncomeWidget(
-                          codKhr: controller.totalAmount.text,
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              }),
-              5.height,
+              const SizedBox(height: 20),
+
+              // ── Summary Card ──
+              Obx(
+                () => CustomSummaryCard(
+                  clientCount: loanRepaymentCtl.customerCount.value,
+                  totalRepaymentUsd:
+                      controller.collectedSum.value +
+                      controller.totalRepaymentSum.value,
+                  collectedUsd: controller.collectedSum.value,
+                  exchangeRate: 4100,
+                  totalRepaymentFormatted: controller.totalToCollectUsd,
+                  totalRepaymentKhrFormatted: controller.totalToCollectKhr,
+                  onClientsTap: () {
+                    DialogManager.showDialog(
+                      title: 'Coming Soon',
+                      subTitle:
+                          'Client list will be available in a future update.',
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ── Warning Text ──
               Padding(
                 padding: UIConstants.spacing.padHorizontal,
                 child: Form(
@@ -99,6 +85,8 @@ class TransferDataView extends GetView<TransferDataController> {
                 ),
               ),
               5.height,
+
+              // ── Progress Bar ──
               Obx(() {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -112,7 +100,7 @@ class TransferDataView extends GetView<TransferDataController> {
                           Colors.redAccent,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         '${(controller.progress.value * 100).toStringAsFixed(0)}% Synced',
                       ),
@@ -120,6 +108,8 @@ class TransferDataView extends GetView<TransferDataController> {
                   ),
                 );
               }),
+
+              // ── Transfer Button ──
               Obx(() {
                 return PrimaryButton(
                   text: LocaleKeys.transfer.tr,
