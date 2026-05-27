@@ -1,5 +1,6 @@
 import 'package:apploan/core/core.dart';
 import 'package:apploan/models/models.dart';
+import 'package:apploan/routes.dart';
 import 'package:apploan/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -346,6 +347,22 @@ class LoanDisbursmentsView extends GetView<LoanDisbursmentsController> {
           ),
         );
       }),
+      bottomNavigationBar: AppBottomNav(
+        navKey: const ValueKey('loanDisbursments-nav'),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
+        // TODO: swap based on role when ready
+        // items: UserRepository.shared.isAdmin
+        //     ? loanNavItemsAdmin()
+        //     : loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
+      ),
     );
   }
 }

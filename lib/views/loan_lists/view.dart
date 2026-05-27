@@ -1,3 +1,4 @@
+import 'package:apploan/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
@@ -13,7 +14,7 @@ class LoanListsView extends GetView<LoanListsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: LocaleKeys.loans.tr,
+        title: LocaleKeys.loanLists.tr,
         onBack: () => Navigator.pop(context, false),
       ),
       body: SafeArea(
@@ -125,14 +126,20 @@ class LoanListsView extends GetView<LoanListsController> {
         ),
       ),
       bottomNavigationBar: AppBottomNav(
-        navKey: const ValueKey('loans-nav'),
-        initialActiveIndex: 0,
-        onTap: (index) => controller.changeMenu(index),
+        navKey: const ValueKey('loanLists-nav'),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
         // TODO: swap based on role when ready
         // items: UserRepository.shared.isAdmin
         //     ? loanNavItemsAdmin()
         //     : loanNavItemsCO(),
-        items: loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
       ),
     );
   }

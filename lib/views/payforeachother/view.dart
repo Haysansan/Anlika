@@ -1,5 +1,6 @@
 import 'package:apploan/models/clientPrePaid/model.dart';
 import 'package:apploan/models/models.dart';
+import 'package:apploan/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
@@ -145,6 +146,23 @@ class PayfoeachotherView extends GetView<PayfoeachotherController> {
             ),
           ),
         ),
+      ),
+
+      bottomNavigationBar: AppBottomNav(
+        navKey: const ValueKey('payForOther-nav'),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
+        // TODO: swap based on role when ready
+        // items: UserRepository.shared.isAdmin
+        //     ? loanNavItemsAdmin()
+        //     : loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
       ),
     );
   }

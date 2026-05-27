@@ -144,6 +144,22 @@ class CustomersView extends GetView<CustomersController> {
         tooltip: 'Add Customer',
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: AppBottomNav(
+        navKey: const ValueKey('customers-nav'),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
+        // TODO: swap based on role when ready
+        // items: UserRepository.shared.isAdmin
+        //     ? loanNavItemsAdmin()
+        //     : loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
+      ),
     );
   }
 

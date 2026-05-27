@@ -1,3 +1,4 @@
+import 'package:apploan/routes.dart';
 import 'package:apploan/views/loans/widgets/loans.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,13 +51,19 @@ class LoansDashboardView extends GetView<LoansDashboardController> {
       // ── add from here ──
       bottomNavigationBar: AppBottomNav(
         navKey: const ValueKey('loans-nav'),
-        initialActiveIndex: 0,
-        onTap: (index) => controller.changeMenu(index),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
         // TODO: swap based on role when ready
         // items: UserRepository.shared.isAdmin
         //     ? loanNavItemsAdmin()
         //     : loanNavItemsCO(),
-        items: loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
       ),
       // ── add to here ──
     );

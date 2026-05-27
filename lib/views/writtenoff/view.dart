@@ -1,3 +1,4 @@
+import 'package:apploan/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
@@ -131,6 +132,22 @@ class WrittenoffView extends GetView<WrittenoffController> {
           ],
         );
       }),
+      bottomNavigationBar: AppBottomNav(
+        navKey: const ValueKey('writtenoff-nav'),
+        initialActiveIndex: 1,
+        activeColor: AppColor.blueGrey,
+        // TODO: swap based on role when ready
+        // items: UserRepository.shared.isAdmin
+        //     ? loanNavItemsAdmin()
+        //     : loanNavItemsCO(),
+        items: mainNavItems(),
+        onTap: (index) {
+          Get.offAllNamed(Routes.start);
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Get.find<StartController>().changeMenu(index);
+          });
+        },
+      ),
     );
   }
 

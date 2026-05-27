@@ -1,3 +1,4 @@
+import 'package:apploan/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:apploan/core/core.dart';
@@ -119,6 +120,18 @@ class TransferDataView extends GetView<TransferDataController> {
               }),
             ],
           ),
+        ),
+        bottomNavigationBar: AppBottomNav(
+          navKey: const ValueKey('transfer-nav'),
+          initialActiveIndex: 1,
+          activeColor: AppColor.blueGrey,
+          items: mainNavItems(),
+          onTap: (index) {
+            Get.offAllNamed(Routes.start);
+            Future.delayed(const Duration(milliseconds: 100), () {
+              Get.find<StartController>().changeMenu(index);
+            });
+          },
         ),
       ),
     );
