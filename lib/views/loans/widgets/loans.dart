@@ -80,7 +80,7 @@ class LoansWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // ── Same margin as the summary card so edges align ────────────────────
+      // ── Same margin as the summary card so edges align ───
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.65),
@@ -95,11 +95,10 @@ class LoansWidget extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 25, left: 1, right: 1),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 1),
         child: GridView.builder(
           itemCount: catName.length,
           shrinkWrap: true,
-          // Disable grid's own scrolling — the parent scroll view handles it
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,

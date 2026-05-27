@@ -281,6 +281,11 @@ class AppTextStyle {
     fontSize: 12,
     fontWeight: AppStyle._regular,
   );
+  static const smallWhiteRegular = TextStyle(
+    color: AppColor.white,
+    fontSize: 12,
+    fontWeight: AppStyle._regular,
+  );
   static const smallGreySemiBold = TextStyle(
     color: AppColor.grey,
     fontSize: 12,

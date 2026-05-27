@@ -49,7 +49,7 @@ class TransferItemWidget extends StatelessWidget {
               // Logo
               CircleAvatar(
                 radius: 30,
-                backgroundColor: AppColor.white,
+                // backgroundColor: AppColor.white,
                 child: CustomNetworkImage(imageUrl: delivery.photo),
               ),
               12.width,

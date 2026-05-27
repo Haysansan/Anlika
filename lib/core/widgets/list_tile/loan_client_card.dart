@@ -68,7 +68,7 @@ class LoanClientCard extends StatelessWidget {
       borderRadius: UIConstants.radius.radiusAll,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColor.white,
+          // color: AppColor.white,
           borderRadius: UIConstants.radius.radiusAll,
           border: Border.all(width: 1, color: AppColor.lightred),
         ),

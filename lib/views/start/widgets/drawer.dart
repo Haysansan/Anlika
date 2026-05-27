@@ -392,7 +392,7 @@ class DrawerWidget extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               '${LocaleKeys.version.tr} ${AppConfig.shared.version}',
-              style: AppTextStyle.smallGreyRegular,
+              style: AppTextStyle.smallWhiteRegular,
               textAlign: TextAlign.center,
             ),
           ],
