@@ -17,33 +17,43 @@ class WrittenoffView extends GetView<WrittenoffController> {
         title: LocaleKeys.writtenoff.tr,
         onBack: () => Navigator.pop(context, false),
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColor.red),
-          );
-        }
-
-        if (controller.repaymentModel.isEmpty) {
-          return const NoDataWidget();
-        }
-
-        final List<WrittenOffModel> delivery = controller.repaymentModel;
-
-        return Column(
+      body: SafeArea(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // // ── Fixed: Summary card ──
+            // const SizedBox(height: 20),
+            // Obx(
+            //   () => CustomSummaryCard(
+            //     clientCount: loanRepaymentCtl.customerCount.value,
+            //     totalRepaymentUsd:
+            //         controller.collectedSum.value +
+            //         controller.totalRepaymentSum.value,
+            //     collectedUsd: controller.collectedSum.value,
+            //     exchangeRate: 4100,
+            //     totalRepaymentFormatted: controller.totalToCollectUsd,
+            //     totalRepaymentKhrFormatted: controller.totalToCollectKhr,
+            //     onClientsTap: () => Get.toNamed(Routes.customers),
+
+            //     // message dialog for uncompleted functions
+            //     // {
+            //     //   DialogManager.showDialog(
+            //     //     title: 'Coming Soon',
+            //     //     subTitle:
+            //     //         'Client list will be available in a future update.',
+            //     //   );
+            //     // },
+            //   ),
+            // ),
+            // 20.height,
+
+            // ── Fixed: Search bar ──
             Padding(
-              padding: UIConstants.spacing.padHorizontal,
+              padding: UIConstants.spacing.padAll,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  UIConstants.spacing.height,
-
-                  // Clear
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -52,14 +62,8 @@ class WrittenoffView extends GetView<WrittenoffController> {
                       ),
                       InkWell(
                         onTap: () {
-                          if (controller.searchCtl.text.isEmpty) {
-                            return;
-                          }
-                          controller.clearFitler();
-                          controller.fetchDelivery(
-                            isRefresh: true,
-                            isFilter: true,
-                          );
+                          if (controller.searchCtl.text.isEmpty) return;
+                          controller.clearFilter();
                         },
                         child: Text(
                           LocaleKeys.clear.tr,
@@ -69,69 +73,86 @@ class WrittenoffView extends GetView<WrittenoffController> {
                     ],
                   ),
                   UIConstants.spacing.height,
-
-                  // Search
-                  CustomTextField(
+                  AppSearchBar(
                     controller: controller.searchCtl,
-                    filled: true,
                     hintText: LocaleKeys.searchByCIDName.tr,
-                    onFieldSubmitted: (value) {
-                      if (value.isEmpty) {
-                        return;
-                      }
-                      controller.setSearchValue();
-                      controller.fetchDelivery(isRefresh: true, isFilter: true);
-                    },
+                    // onSubmitted: (value) => controller.onSearch(value),
+                    // onChanged: (value) => controller.onSearch(value),
+                    // onClear: controller.onClearSearch,
                   ),
-                  UIConstants.spacing.height,
                 ],
               ),
             ),
 
-            // Title
-            Padding(
-              padding: UIConstants.spacing.padHorizontal,
-              child: Text(
-                '${LocaleKeys.totalOS.tr} ${formatCurrency(controller.total.toString())}  & ${controller.totalclient.toString()} ${LocaleKeys.totalClient.tr}',
-                style: AppTextStyle.smallPrimaryRegular,
-              ),
-            ),
-            UIConstants.midSpacing.height,
+            UIConstants.spacing.height,
 
-            // Listing
+            // ── Scrollable: List only ──
             Expanded(
-              child: RefreshIndicator(
-                backgroundColor: AppColor.white,
-                color: AppColor.primary,
-                onRefresh: () async => await controller.onRefresh(),
-                child: pull.SmartRefresher(
-                  header: pull.CustomHeader(
-                    height: 0,
-                    builder: (context, mode) => const SizedBox.shrink(),
-                  ),
-                  enablePullUp: !controller.pagination.isEndOfPage,
-                  controller: controller.refreshCtl,
-                  onLoading: () async => await controller.onLoading(),
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(
-                      left: UIConstants.spacing.toDouble(),
-                      right: UIConstants.spacing.toDouble(),
-                      top: UIConstants.midSpacing.toDouble(),
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.secondPrime,
                     ),
-                    itemCount: delivery.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: UIConstants.spacing.padBottom,
-                        child: WrittenoffWidget(WOLoan: delivery[index]),
-                      );
-                    },
+                  );
+                }
+
+                if (controller.filteredRepayments.isEmpty) {
+                  return const NoDataWidget();
+                }
+
+                // only show up to visibleCount items
+                final visibleItems =
+                    controller.filteredRepayments
+                        .take(controller.visibleCount.value)
+                        .toList();
+
+                return ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: UIConstants.spacing.toDouble(),
                   ),
-                ),
-              ),
+                  // +1 for the Show More button row at the bottom
+                  itemCount: visibleItems.length + 1,
+                  itemBuilder: (context, index) {
+                    // last item = Show More button
+                    if (index == visibleItems.length) {
+                      final int visible = controller.visibleCount.value;
+                      final int total = controller.filteredRepayments.length;
+
+                      if (visible >= total) return UIConstants.spacing.height;
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: UIConstants.spacing.toDouble(),
+                        ),
+                        child: Center(
+                          // child: TextButton.icon(
+                          //   onPressed: controller.showMore,
+                          //   icon: const Icon(
+                          //     Icons.keyboard_arrow_down,
+                          //     color: AppColor.hardOrange,
+                          //   ),
+                          //   label: Text(
+                          //     'Show More (${controller.filteredRepayments.length - controller.visibleCount.value} remaining)',
+                          //     style: const TextStyle(
+                          //       color: AppColor.hardOrange,
+                          //     ),
+                          //   ),
+                          // ),
+                        ),
+                      );
+                    }
+
+                    return Padding(
+                      padding: UIConstants.midSpacing.padBottom,
+                      child: RepaymentItemWidget(delivery: visibleItems[index]),
+                    );
+                  },
+                );
+              }),
             ),
           ],
-        );
-      }),
+        ),
+      ),
       bottomNavigationBar: AppBottomNav(
         navKey: const ValueKey('writtenoff-nav'),
         initialActiveIndex: 1,
@@ -149,18 +170,5 @@ class WrittenoffView extends GetView<WrittenoffController> {
         },
       ),
     );
-  }
-
-  // String formatCurrency(String amount) {
-  //   // ignore: unnecessary_null_comparison
-  //   return amount != null
-  //       ? 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(double.parse(amount))}'.replaceAll('.00', '')
-  //       : 'N/A';
-  // }
-  String formatCurrency(String amount) {
-    final parsed = double.tryParse(amount);
-    if (parsed == null) return 'N/A';
-    return 'រៀល ${NumberFormat.currency(locale: 'en_US', symbol: '').format(parsed)}'
-        .replaceAll('.00', '');
   }
 }

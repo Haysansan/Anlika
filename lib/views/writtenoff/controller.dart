@@ -15,7 +15,7 @@ class WrittenoffController extends GetxController {
   final TextEditingController endBillCreateDateCtl = TextEditingController();
   final TextEditingController startBillFinishDateCtl = TextEditingController();
   final TextEditingController endBillFinishDateCtl = TextEditingController();
-  final TextEditingController searchCtl = TextEditingController();
+  // final TextEditingController searchCtl = TextEditingController();
 
   final RxList<WrittenOffModel> repaymentModel = <WrittenOffModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -25,6 +25,22 @@ class WrittenoffController extends GetxController {
   num total = 0;
   num totalclient = 0;
   final StartController startCtl = Get.find<StartController>();
+
+  // ── Search bar ──
+  final TextEditingController searchCtl = TextEditingController();
+  // Holds the full unfiltered list loaded from DB
+  final RxList<RepaymentModel> _allRepayments = <RepaymentModel>[].obs;
+  // The list the view actually renders
+  final RxList<RepaymentModel> filteredRepayments = <RepaymentModel>[].obs;
+  final RxInt visibleCount = _pageSize.obs;
+
+  // ── Tab state ──
+  final RxInt selectedIndex = 0.obs;
+  // late Rx<Widget> selectedScreen = screens[0].obs;
+
+  // Static so it survives hot reload (same as StartController)
+  // static List<Widget> screens = [const DashboardView()];
+  static const int _pageSize = 10;
 
   @override
   void onInit() {
@@ -54,6 +70,45 @@ class WrittenoffController extends GetxController {
     refreshCtl.dispose();
     super.onClose();
   }
+
+  // ── Search logic ──
+
+  // void onSearch(String value) {
+  //   visibleCount.value = _pageSize;
+  //   if (value.trim().isEmpty) {
+  //     filteredRepayments.assignAll(_allRepayments);
+  //     return;
+  //   }
+  //   final query = value.trim().toLowerCase();
+  //   filteredRepayments.assignAll(
+  //     _allRepayments.where(
+  //       (item) =>
+  //           item.client.toLowerCase().contains(query) ||
+  //           item.client_code.toLowerCase().contains(query),
+  //     ),
+  //   );
+  // }
+
+  // void onClearSearch() {
+  //   visibleCount.value = _pageSize;
+  //   searchCtl.clear();
+  //   filteredRepayments.assignAll(_allRepayments);
+  // }
+
+  void clearFilter({int status = 0}) {
+    // onClearSearch();
+    selectedStatusValue.value = status;
+    startBillCreateDateCtl.clear();
+    endBillCreateDateCtl.clear();
+    startBillFinishDateCtl.clear();
+    endBillFinishDateCtl.clear();
+  }
+
+  // void showMore() {
+  //   final int remaining = filteredRepayments.length - visibleCount.value;
+  //   // use min() instead of clamp to keep the type as int
+  //   visibleCount.value += remaining < _pageSize ? remaining : _pageSize;
+  // }
 
   Future<void> fetchDelivery({
     bool isRefresh = false,
@@ -98,8 +153,19 @@ class WrittenoffController extends GetxController {
       // final data = getPropertyFromJson(DatabaseHelper.instance.queryAllRowsRepayments(1),"data");
       // print(data);
       final data = getPropertyFromJson(res.data, 'data');
-      total = num.parse(getPropertyFromJson(res.data, 'totalAmount'));
-      totalclient = num.parse(getPropertyFromJson(res.data, 'totalClient'));
+      // total = num.parse(getPropertyFromJson(res.data, 'totalAmount'));
+      // totalclient = num.parse(getPropertyFromJson(res.data, 'totalClient'));
+      total =
+          num.tryParse(
+            getPropertyFromJson(res.data, 'totalAmount')?.toString() ?? '0',
+          ) ??
+          0;
+
+      totalclient =
+          num.tryParse(
+            getPropertyFromJson(res.data, 'totalClient')?.toString() ?? '0',
+          ) ??
+          0;
       // pagination.checkLoadMore((data as List).length);
 
       if (isRefresh) {
@@ -117,7 +183,7 @@ class WrittenoffController extends GetxController {
       if (isClosed) {
         return;
       }
-      // ExceptionHandler.handleException(e);
+      ExceptionHandler.handleException(e);
     } finally {
       isLoading.value = false;
     }
@@ -128,10 +194,10 @@ class WrittenoffController extends GetxController {
     refreshCtl.refreshCompleted();
   }
 
-  Future<void> onLoading() async {
-    await fetchDelivery(isLoadMore: true);
-    refreshCtl.loadComplete();
-  }
+  // Future<void> onLoading() async {
+  //   await fetchDelivery(isLoadMore: true);
+  //   refreshCtl.loadComplete();
+  // }
 
   DatePicker getStartBillCreatePicker(
     TextEditingController startDateCtl,
