@@ -33,13 +33,16 @@ class LoanListsView extends GetView<LoanListsController> {
                 exchangeRate: 4100,
                 totalRepaymentFormatted: controller.totalToCollectUsd,
                 totalRepaymentKhrFormatted: controller.totalToCollectKhr,
-                onClientsTap: () {
-                  DialogManager.showDialog(
-                    title: 'Coming Soon',
-                    subTitle:
-                        'Client list will be available in a future update.',
-                  );
-                },
+                onClientsTap: () => Get.toNamed(Routes.customers),
+
+                // message dialog for uncompleted functions
+                // {
+                //   DialogManager.showDialog(
+                //     title: 'Coming Soon',
+                //     subTitle:
+                //         'Client list will be available in a future update.',
+                //   );
+                // },
               ),
             ),
             20.height,

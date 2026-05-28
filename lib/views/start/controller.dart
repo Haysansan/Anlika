@@ -16,6 +16,7 @@ class StartController extends GetxController {
     screens = List.from([
       const DashboardView(),
       const PaymentCollectionView(),
+      const CustomersView(),
       // const PaidOffView(),
       // const PaymentCollectionView(),
       const DisburmentListView(),
